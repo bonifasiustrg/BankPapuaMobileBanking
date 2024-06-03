@@ -61,7 +61,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.takasima.bankpapuamb.R
-import com.takasima.bankpapuamb.common.OptTextField
+import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.secondary

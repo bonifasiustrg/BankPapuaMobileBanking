@@ -33,19 +33,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.takasima.bankpapuamb.common.MainBg
-import com.takasima.bankpapuamb.common.OptTextField
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.takasima.bankpapuamb.graphs.Graph
+import com.takasima.bankpapuamb.screen.BottomBarScreen
+import com.takasima.bankpapuamb.screen.common.MainBg
+import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
 @Composable
-fun TarikTunaiScreen(modifier: Modifier = Modifier) {
+fun TarikTunaiScreen(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
 
 
     Box(
@@ -85,6 +93,7 @@ fun TarikTunaiScreen(modifier: Modifier = Modifier) {
                     }
                 }
             ) {
+
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -93,8 +102,23 @@ fun TarikTunaiScreen(modifier: Modifier = Modifier) {
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-//                    TTSection1()
-                    TTSection2()
+                    TTSection1()
+//                    TTSection2()
+
+//                    NavHost(
+//                        navController = navController,
+//                        route = "tarik_tunai_sect1",
+//                        startDestination = "tarik_tunai_sect1"
+//                    ) {
+//                        composable(route = "tarik_tunai_sect1") {
+//                            TTSection1()
+//                        }
+//
+//                        composable(route = "tarik_tunai_sect2") {
+//
+//                            TTSection2()
+//                        }
+//                    }
                 }
             }
         }
@@ -111,10 +135,12 @@ private fun TarikTunaiScreenPrev() {
 fun ColumnScope.TTSection1(modifier: Modifier = Modifier) {
     val noKartu = remember { mutableStateOf("") }
 
-    TextField(value = noKartu.value, onValueChange = { noKartu.value = it }, leadingIcon = { Icon(
-        imageVector = Icons.Default.DateRange,
-        contentDescription = null
-    )}, shape = RoundedCornerShape(16.dp), label = { Text(text = "Masukkan Nomor Kartu")})
+    TextField(value = noKartu.value, onValueChange = { noKartu.value = it }, leadingIcon = {
+        Icon(
+            imageVector = Icons.Default.DateRange,
+            contentDescription = null
+        )
+    }, shape = RoundedCornerShape(16.dp), label = { Text(text = "Masukkan Nomor Kartu") })
 
     Row(
         Modifier
@@ -218,7 +244,11 @@ fun ColumnScope.TTSection1(modifier: Modifier = Modifier) {
 
 
     Spacer(modifier = Modifier.height(100.dp))
-    Button(modifier = Modifier.width(200.dp), onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(containerColor = secondary)) {
+    Button(
+        modifier = Modifier.width(200.dp),
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+    ) {
         Text(text = "Konfirmasi")
     }
 }
@@ -239,10 +269,41 @@ private fun TTSection1Prev() {
 
 @Composable
 fun ColumnScope.TTSection2(modifier: Modifier = Modifier) {
-    Text(text = "Silahkan Masukkan Inputan ke dalam \nMesin ATM", textAlign = TextAlign.Center)
+    Spacer(modifier = Modifier.height(64.dp))
+    Text(
+        text = "Silahkan Masukkan Inputan ke dalam \nMesin ATM",
+        textAlign = TextAlign.Center,
+        fontSize = 18.sp
+    )
+    Spacer(modifier = Modifier.height(32.dp))
+    OptTextField(bgColor = Color.White)
+    Spacer(modifier = Modifier.height(32.dp))
+    Text(
+        text = "01:20",
+        textAlign = TextAlign.Center,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Light
+    )
 
-    OptTextField()
+    Spacer(modifier = Modifier.height(100.dp))
+    Button(
+        modifier = Modifier.width(200.dp),
+        onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+    ) {
+        Text(text = "Konfirmasi")
+    }
+    TextButton(onClick = { /*TODO*/ }) {
+        Text(
+            text = "Kirim ulang kode", color = Color.White, style = TextStyle(
+                textDecoration = TextDecoration.Underline,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
 
+            )
+        )
+
+    }
 }
 
 @Preview(showBackground = true)

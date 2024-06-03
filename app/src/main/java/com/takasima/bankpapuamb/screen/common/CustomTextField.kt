@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.common
+package com.takasima.bankpapuamb.screen.common
 
 import android.widget.Space
 import androidx.compose.foundation.background
@@ -50,6 +50,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary2
@@ -58,7 +59,7 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 @Composable
 fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transparent) {
     var otpText by remember {
-        mutableStateOf("")
+        mutableStateOf("9221")
     }
 
     BasicTextField(
@@ -78,16 +79,16 @@ fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transpare
                 }
 
                 Column(
-                    modifier = modifier.border(1.dp, terniary2, shape = RoundedCornerShape(20.dp)),
+                    modifier = modifier.background(bgColor, shape = RoundedCornerShape(16.dp)).border(1.dp, terniary2, shape = RoundedCornerShape(20.dp)).padding(4.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = number.toString(), style = MaterialTheme.typography.titleLarge)
+                    Text(text = number.toString(), style = MaterialTheme.typography.titleLarge, fontSize = 42.sp)
 
                     Box(
                         modifier = modifier
-                            .width(72.dp)
-                            .height(32.dp)
+                            .width(64.dp)
+//                            .height(32.dp)
                     )
                 }
             }

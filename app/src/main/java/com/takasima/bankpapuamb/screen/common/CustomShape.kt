@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.common
+package com.takasima.bankpapuamb.screen.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

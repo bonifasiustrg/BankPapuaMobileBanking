@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.common
+package com.takasima.bankpapuamb.screen.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +22,8 @@ import com.takasima.bankpapuamb.ui.theme.biru2
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.terniary2
+
+
 
 
 @Composable
