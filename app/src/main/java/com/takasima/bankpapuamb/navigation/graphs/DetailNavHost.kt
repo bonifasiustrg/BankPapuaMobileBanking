@@ -21,6 +21,7 @@ import com.takasima.bankpapuamb.screen.main.payment.InternetScreen
 import com.takasima.bankpapuamb.screen.main.payment.PaymentMainSection
 import com.takasima.bankpapuamb.screen.main.payment.PembayaranScreen
 import com.takasima.bankpapuamb.screen.main.payment.PendidikanScreen
+import com.takasima.bankpapuamb.screen.main.samsat.ESamsatScreen
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
@@ -50,8 +51,8 @@ fun HomeNavHost(rootNavController: NavHostController, openPayBottomSheet: Mutabl
             ScreenContent("BPJS", {})
         }
         composable(route = FeatureRouteScreens.ESamsatScreen.route) {
-            ScreenContent("Esamsat", {})
-//            PembayaranScreen(homeNavController = homeNavController)
+//            ScreenContent("Esamsat", {})
+            ESamsatScreen(homeNavController = homeNavController)
         }
         composable(route = FeatureRouteScreens.PACE.route) {
             ScreenContent("PACE", {})

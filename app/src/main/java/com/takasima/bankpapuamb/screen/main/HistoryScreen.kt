@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,39 +18,39 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HistoryScreen(modifier: Modifier = Modifier) {
+fun HistoryScreen(rootNavController: NavHostController, homeNavController: NavHostController, modifier: Modifier = Modifier ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -73,11 +72,16 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            homeNavController.popBackStack()
+                            homeNavController.navigate(MainRouteScreens.Home.route)
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
                             text = "AKTIVITAS",
                             color = terniary,
@@ -95,7 +99,7 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                         .fillMaxSize()
                         .padding(it)
                         .background(Color.White, shape = RoundedCornerShape(16.dp))
-                        .padding(horizontal = 16.dp).padding(top = 16.dp),
+                        .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -112,7 +116,7 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun HistoryItem(modifier: Modifier = Modifier) {
-    Card(modifier.fillMaxWidth()) {
+    Card(modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Row(Modifier.padding(16.dp)) {
             Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null)
             Spacer(modifier = Modifier.width(16.dp))
@@ -153,7 +157,7 @@ fun HistoryItem(modifier: Modifier = Modifier) {
 //                        shape = RoundedCornerShape(48.dp)
 //                    )
                 ) {
-                    Text(text = "Berhasil", color = Color.Magenta)
+                    Text(text = "Berhasil", color = Color(0xFFFDB807))
                 }
             }
         }
@@ -164,5 +168,5 @@ fun HistoryItem(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun HistoryPrev() {
-    HistoryScreen()
+    HistoryScreen(rememberNavController(), rememberNavController())
 }

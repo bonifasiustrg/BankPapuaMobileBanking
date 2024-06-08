@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.ProfileScreen
-import com.takasima.bankpapuamb.screen.main.FavoriteScreen
 import com.takasima.bankpapuamb.screen.main.HistoryScreen
 import com.takasima.bankpapuamb.screen.main.HomeScreen
 import com.takasima.bankpapuamb.screen.main.MutationScreen
@@ -37,7 +36,7 @@ fun MainNavGraph(rootNavController: NavHostController, homeNavController: NavHos
 
         composable(route = MainRouteScreens.History.route) {
 //            ScreenContent(name = MainRouteScreens.History.route, onClick = {})
-            HistoryScreen()
+            HistoryScreen(rootNavController, homeNavController)
         }
         composable(route = MainRouteScreens.Atm.route) {
             HomeScreen(rootNavController, homeNavController, openPayBottomSheet = openPayBottomSheet)
