@@ -1,6 +1,10 @@
 package com.takasima.bankpapuamb.navigation
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
@@ -30,22 +34,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.ui.theme.biru2
 
-/**
- * @author Coding Meet
- * Created 18-01-2024 at 01:09 pm
- */
-
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun BottomNavigationBar(
     items: List<NavigationItem>,
     currentRoute: String?,
     onClickQRScan: () -> Unit,
+//    onDoubleTap: (NavigationItem) -> Unit,
+    mainNavController: NavHostController = rememberNavController(),
     onClick: (NavigationItem) -> Unit,
-) {
+
+    ) {
     val colorStops = arrayOf(
         0.0f to Color.Transparent,
         0.3f to Color.Transparent,
@@ -54,10 +58,6 @@ fun BottomNavigationBar(
     )
     val gradientBrush = Brush.verticalGradient(
         colorStops = colorStops,
-//        colors = listOf(
-//            Color.Transparent,
-//            Color(0xFF0E6DC5)
-//        )
     )
 
     NavigationBar(
@@ -69,6 +69,7 @@ fun BottomNavigationBar(
     ) {
 //        Box(modifier = Modifier.fillMaxWidth().height(24.dp).background(Color.White))
         items.forEachIndexed { index, navigationItem ->
+
             if (index == 2) {
                 FloatingActionButton(
                     onClick = { onClickQRScan() },
@@ -89,54 +90,21 @@ fun BottomNavigationBar(
                         modifier = Modifier.padding(8.dp)
                     )
                 }
-//                NavigationBarItem(
-//                    colors = NavigationBarItemDefaults.colors(
-////                        unselectedIconColor = Color.Black,
-////                        unselectedTextColor = Color.Black,
-////                        selectedIconColor = Color.White,
-////                        selectedTextColor = Color.White,
-////                        indicatorColor = biru2
-//                    ),
-//                    selected = currentRoute == navigationItem.route,
-//                    onClick = { onClick(navigationItem) },
-//                    icon = {
-//                        IconButton(
-//                            onClick = { /*TODO*/ },
-//                            Modifier
-//                                .size(64.dp)
-//                        ) {
-//                            Icon(
-//                                painter = painterResource(id = R.drawable.qris),
-//                                contentDescription = null,
-//                                Modifier.size(64.dp)
-//                            )
-//                        }
-//                        /*BadgedBox(badge = {
-//                            if (navigationItem.badgeCount != null) {
-//                                Badge {
-//                                    Text(text = navigationItem.badgeCount.toString())
-//                                }
-//                            } else if (navigationItem.hasBadgeDot) {
-//                                Badge()
-//                            }
-//                        }) {
-//                            Icon(
-//                                *//*imageVector*//*painterResource(id = if (currentRoute == navigationItem.route) {
-//                                    navigationItem.selectedIcon
-//                                } else {
-//                                    navigationItem.unSelectedIcon
-//                                }),
-//                                contentDescription = navigationItem.title,
-//                                modifier = Modifier.size(24.dp)
-//                            )
-//                        }*/
-//                    }, label = {
-//                        Text(text = navigationItem.title)
-//                    },
-//                    alwaysShowLabel = false
-//                )
             } else {
+                var i = 0
                 NavigationBarItem(
+//                    modifier = Modifier
+//                        .combinedClickable(
+//                            onClick = { Log.d("onclick", "Click in combinedClickable") },
+//                            onDoubleClick = {
+//                                mainNavController.popBackStack()
+//                                mainNavController.navigate(MainRouteScreens.Home.route)
+//                            },
+////                            onLongClick = {
+////                                Log.d("onclick", “Long click in combinedClickable”)
+////                            }
+//                        )
+//                        .clickable { Log.d("onclick", "Click in clickable") },
                     colors = NavigationBarItemDefaults.colors(
                         unselectedIconColor = Color.Black,
                         unselectedTextColor = Color.Black,
@@ -145,7 +113,15 @@ fun BottomNavigationBar(
                         indicatorColor = biru2
                     ),
                     selected = currentRoute == navigationItem.route,
-                    onClick = { onClick(navigationItem) },
+                    onClick = {
+                        i += 1
+                        onClick(navigationItem)
+                        if (i == 2) {
+                            mainNavController.popBackStack()
+                            mainNavController.navigate(MainRouteScreens.Home.route)
+                            i = 0
+                        }
+                    },
                     icon = {
 //                        BadgedBox(badge = {
 //                            if (navigationItem.badgeCount != null) {
@@ -156,23 +132,25 @@ fun BottomNavigationBar(
 //                                Badge()
 //                            }
 //                        }) {
-                            Icon(
-                                /*imageVector*/painterResource(
-                                    id = if (currentRoute == navigationItem.route) {
-                                        navigationItem.selectedIcon
-                                    } else {
-                                        navigationItem.unSelectedIcon
-                                    }
-                                ),
-                                contentDescription = navigationItem.title,
-                                modifier = Modifier.size(32.dp)
-                            )
+                        Icon(
+                            /*imageVector*/painterResource(
+                                id = if (currentRoute == navigationItem.route) {
+                                    navigationItem.selectedIcon
+                                } else {
+                                    navigationItem.unSelectedIcon
+                                }
+                            ),
+                            contentDescription = navigationItem.title,
+                            modifier = Modifier.size(32.dp)
+                        )
 //                        }
-                    }, label = {
+                    },
+                    label = {
                         Text(text = navigationItem.title)
                     },
-                    alwaysShowLabel = false
-                )
+                    alwaysShowLabel = false,
+
+                    )
             }
         }
     }

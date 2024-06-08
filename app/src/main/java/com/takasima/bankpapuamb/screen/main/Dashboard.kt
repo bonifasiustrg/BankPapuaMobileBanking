@@ -86,7 +86,8 @@ fun Dashboard(
                         currentRoute = currentRoute,
                         onClickQRScan = { mainViewModel.checkCameraPermission(context = context)
 
-                        }
+                        },
+                        mainNavController
                     ) { currentNavigationItem ->
                         Log.e("currentRoute", currentRoute.toString())
                         if (currentNavigationItem.route == MainRouteScreens.Atm.route) {
@@ -94,6 +95,7 @@ fun Dashboard(
                             openPayBottomSheet.value = true
 
                         } else {
+
                             mainNavController.navigate(currentNavigationItem.route) {
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
