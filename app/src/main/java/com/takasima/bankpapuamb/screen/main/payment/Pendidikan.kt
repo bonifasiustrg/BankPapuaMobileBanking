@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.ContactMail
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -41,6 +40,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
@@ -48,7 +49,11 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 
 
 @Composable
-fun PendidikanScreen(modifier: Modifier = Modifier) {
+fun PendidikanScreen(
+    modifier: Modifier = Modifier,
+    homeNavController: NavHostController,
+    paymentNavController: NavHostController
+) {
 
 
     Box(
@@ -174,5 +179,8 @@ fun ColumnScope.PendidikanScreenSection1(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun PendidikanScreenPrev() {
-    PendidikanScreen()
+    PendidikanScreen(
+        homeNavController = rememberNavController(),
+        paymentNavController = rememberNavController()
+    )
 }

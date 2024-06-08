@@ -9,7 +9,9 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
@@ -17,10 +19,11 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.takasima.bankpapuamb.data.UserPreferences
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
-import com.takasima.bankpapuamb.graphs.Graph
-import com.takasima.bankpapuamb.graphs.RootNavGraph
+import com.takasima.bankpapuamb.navigation.Graph
+import com.takasima.bankpapuamb.navigation.graphs.RootNavGraph
 import com.takasima.bankpapuamb.ui.theme.BankPapuaMobileBankingTheme
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -29,19 +32,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             SetBarColor(color = /*MaterialTheme.colorScheme.background*/Color.Transparent)
 
             val userPreferences = UserPreferences(applicationContext)
             val factory = LoginViewModelFactory(userPreferences)
             val mainViewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+            val isAuth = mainViewModel.isLoggedIn.collectAsState().value
 
 
-            val navController = rememberNavController()
             BankPapuaMobileBankingTheme {
-
-                RootNavGraph(navController, mainViewModel)
+                RootNavGraph(mainViewModel, true)
 
             }
 
@@ -49,17 +51,17 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private fun launchLoginObserver(navController: NavHostController) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            mainViewModel.isLoggedIn.collect { isLoggedInState ->
-                if (!isLoggedInState) {
-                    navController.navigate(Graph.AUTHENTICATION) {
-                        popUpTo(0) // reset stack
-                    }
-                }
-            }
-        }
-    }
+//    private fun launchLoginObserver(navController: NavHostController) {
+//        lifecycleScope.launch(Dispatchers.Main) {
+//            mainViewModel.isLoggedIn.collect { isLoggedInState ->
+//                if (!isLoggedInState) {
+//                    navController.navigate(Graph.AUTHENTICATION) {
+//                        popUpTo(0) // reset stack
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
     @Composable

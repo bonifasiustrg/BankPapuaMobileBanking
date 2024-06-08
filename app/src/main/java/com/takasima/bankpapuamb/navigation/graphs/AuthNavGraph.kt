@@ -1,20 +1,22 @@
-package com.takasima.bankpapuamb.graphs
+package com.takasima.bankpapuamb.navigation.graphs
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
+import com.takasima.bankpapuamb.navigation.AuthRouteScreens
+import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.screen.auth.LoginScreen
 import com.takasima.bankpapuamb.screen.auth.RegisterScreen
 
-fun NavGraphBuilder.authNavGraph(navController: NavHostController, viewModel: MainViewModel) {
+fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController, viewModel: MainViewModel) {
     navigation(
         route = Graph.AUTHENTICATION,
-        startDestination = AuthScreen.Login.route
+        startDestination = AuthRouteScreens.Login.route
     ) {
-        composable(route = AuthScreen.Login.route) {
-            LoginScreen(viewModel, navController)
+        composable(route = AuthRouteScreens.Login.route) {
+            LoginScreen(viewModel, rootNavController)
 //            LoginContent(
 //                onClick = {
 //                    navController.popBackStack()
@@ -29,7 +31,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController, viewModel: Ma
 //            )
         }
 
-        composable(route = AuthScreen.SignUp.route){
+        composable(route = AuthRouteScreens.SignUp.route){
 //            ScreenContent(name = AuthScreen.SignUp.route) {}
             RegisterScreen()
         }
@@ -40,8 +42,9 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController, viewModel: Ma
 }
 
 
+/*
 sealed class AuthScreen(val route: String) {
     object Login : AuthScreen(route = "LOGIN")
     object SignUp : AuthScreen(route = "SIGN_UP")
     object Forgot : AuthScreen(route = "FORGOT")
-}
+}*/

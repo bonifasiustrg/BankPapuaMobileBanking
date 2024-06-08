@@ -2,70 +2,66 @@ package com.takasima.bankpapuamb.screen.main
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.takasima.bankpapuamb.graphs.HomeNavGraph
-import com.takasima.bankpapuamb.screen.BottomBarScreen
+import com.takasima.bankpapuamb.navigation.AuthRouteScreens
+import com.takasima.bankpapuamb.navigation.BottomNavigationBar
+import com.takasima.bankpapuamb.navigation.Graph
+import com.takasima.bankpapuamb.navigation.MainRouteScreens
+import com.takasima.bankpapuamb.navigation.graphs.MainNavGraph
+import com.takasima.bankpapuamb.navigation.bottomNavigationItemsList
 import com.takasima.bankpapuamb.screen.common.MainBg
-import com.takasima.bankpapuamb.ui.theme.biru2
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
-data class BottomNavigationItem(
-    val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
-    val hasNews: Boolean,
-    val badgeCount: Int? = null
-)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.S)
@@ -73,33 +69,35 @@ data class BottomNavigationItem(
 @Composable
 fun Dashboard(
 //    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    rootNavController: NavHostController,
+    mainNavController: NavHostController = rememberNavController(),
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
 ) {
-    val items = listOf(
-        BottomNavigationItem(
-            title = "Home",
-            selectedIcon = Icons.Filled.Home,
-            unselectedIcon = Icons.Outlined.Home,
-            hasNews = false,
-        ),
-        BottomNavigationItem(
-            title = "Chat",
-            selectedIcon = Icons.Filled.Email,
-            unselectedIcon = Icons.Outlined.Email,
-            hasNews = false,
-            badgeCount = 45
-        ),
-        BottomNavigationItem(
-            title = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            hasNews = true,
-        ),
-    )
-    var selectedItemIndex by rememberSaveable {
-        mutableStateOf(0)
+    var openPayBottomSheet = remember { mutableStateOf(false) }
+
+    val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
+    val currentRoute by remember(navBackStackEntry) {
+        derivedStateOf {
+            navBackStackEntry?.destination?.route
+        }
     }
+    val topBarTitle by remember(currentRoute) {
+        derivedStateOf {
+            if (currentRoute != null) {
+                bottomNavigationItemsList[bottomNavigationItemsList.indexOfFirst {
+                    it.route == currentRoute
+                }].title
+            } else {
+//                bottomNavigationItemsList[0].title
+            }
+        }
+    }
+    val bottomBarItems = listOf<String>(
+        MainRouteScreens.Home.route,
+        MainRouteScreens.Mutation.route,
+        MainRouteScreens.History.route
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -112,54 +110,54 @@ fun Dashboard(
         ) {
 
             Scaffold(modifier = Modifier, containerColor = Color.Transparent,
-                topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.10f)
-                            .background(color = Color.Transparent)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                imageVector = Icons.Filled.Person,
-                                contentDescription = null,
-                                Modifier.size(40.dp)
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Column {
-                                Text(
-                                    text = "Selamat Datang",
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.LightGray,
-                                    fontSize = 16.sp
-                                )
-                                Text(
-                                    text = "userTest1",
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black
-                                )
+                bottomBar = {
+//                    BottomAppBar(
+//                        containerColor = /*Color(0xB83D9EF8)*/Color.White,
+////                        contentPadding = PaddingValues(),
+//                        windowInsets = WindowInsets.systemBars.exclude(WindowInsets.navigationBars),
+//                    ) {
+//
+//
+//                    }
+                    BottomNavigationBar(
+                        items = bottomNavigationItemsList,
+                        currentRoute = currentRoute
+                    ) { currentNavigationItem ->
+                        Log.e("currentRoute", currentRoute.toString())
+                        if (currentNavigationItem.route == MainRouteScreens.Atm.route) {
+                            mainNavController.navigate(MainRouteScreens.Home.route)
+                            openPayBottomSheet.value = true
+
+                        } else {
+                            mainNavController.navigate(currentNavigationItem.route) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                // on the back stack as users select items
+                                mainNavController.graph.startDestinationRoute?.let { startDestinationRoute ->
+                                    // Pop up to the start destination, clearing the back stack
+                                    popUpTo(startDestinationRoute) {
+                                        // Save the state of popped destinations
+                                        saveState = true
+                                    }
+                                }
+
+                                // Configure navigation to avoid multiple instances of the same destination
+                                launchSingleTop = true
+
+                                // Restore state when re-selecting a previously selected item
+                                restoreState = true
                             }
                         }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "Keluar", fontWeight = FontWeight.Bold, color = Color.Black)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                                contentDescription = null,
-                                Modifier.size(40.dp)
-                            )
-                        }
                     }
-                },
-                bottomBar = {BottomBar(navController = navController)}
+                }
 
 
             ) {
-                HomeNavGraph(navController = navController)
-
+                MainNavGraph(
+                    rootNavController = rootNavController,
+                    homeNavController = mainNavController,
+                    openPayBottomSheet
+                )
 
 
             }
@@ -168,6 +166,7 @@ fun Dashboard(
     }
 }
 
+/*
 
 @Composable
 fun BottomBar(navController: NavHostController) {
@@ -239,6 +238,7 @@ fun RowScope.AddItem(
     )
 }
 
+*/
 
 
 
@@ -246,5 +246,5 @@ fun RowScope.AddItem(
 @Preview(showBackground = true)
 @Composable
 private fun DashboardPrev() {
-    Dashboard()
+    Dashboard(rememberNavController())
 }

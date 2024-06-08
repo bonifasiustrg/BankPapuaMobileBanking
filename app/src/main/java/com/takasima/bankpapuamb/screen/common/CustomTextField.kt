@@ -59,7 +59,7 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 @Composable
 fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transparent) {
     var otpText by remember {
-        mutableStateOf("9221")
+        mutableStateOf("")
     }
 
     BasicTextField(
@@ -68,7 +68,13 @@ fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transpare
             if (it.length <= 4) {
                 otpText = it
             }
-        }
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { /* Handle done action */ }
+        ),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
 
@@ -79,11 +85,18 @@ fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transpare
                 }
 
                 Column(
-                    modifier = modifier.background(bgColor, shape = RoundedCornerShape(16.dp)).border(1.dp, terniary2, shape = RoundedCornerShape(20.dp)).padding(4.dp),
+                    modifier = modifier
+                        .background(bgColor, shape = RoundedCornerShape(16.dp))
+                        .border(1.dp, terniary2, shape = RoundedCornerShape(20.dp))
+                        .padding(4.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = number.toString(), style = MaterialTheme.typography.titleLarge, fontSize = 42.sp)
+                    Text(
+                        text = number.toString(),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 42.sp
+                    )
 
                     Box(
                         modifier = modifier
@@ -100,6 +113,67 @@ fun OptTextField(modifier: Modifier = Modifier, bgColor: Color = Color.Transpare
 @Composable
 private fun OptPrev() {
     OptTextField()
+}
+
+@Composable
+fun OptTextFieldPIN(modifier: Modifier = Modifier, bgColor: Color = Color.Transparent) {
+    var otpText by remember {
+        mutableStateOf("")
+    }
+
+    BasicTextField(
+        value = otpText,
+        onValueChange = {
+            if (it.length <= 6) {
+                otpText = it
+            }
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { /* Handle done action */ }
+        ),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+
+            repeat(6) { index ->
+                val number = when {
+                    index >= otpText.length -> ""
+                    else -> otpText[index]
+                }
+
+                Column(
+                    modifier = modifier
+                        .background(bgColor, shape = RoundedCornerShape(16.dp))
+                        .border(1.dp, terniary2, shape = RoundedCornerShape(20.dp))
+                        .padding(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = number.toString(),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 32.sp
+                    )
+
+                    Box(
+                        modifier = modifier
+                            .width(40.dp)
+//                            .height(32.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OptTextFieldPINPrev() {
+    Column(Modifier.fillMaxWidth()) {
+        OptTextFieldPIN()
+    }
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)

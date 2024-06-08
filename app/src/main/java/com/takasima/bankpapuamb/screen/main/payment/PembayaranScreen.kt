@@ -1,5 +1,6 @@
 package com.takasima.bankpapuamb.screen.main.payment
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ConnectedTv
 import androidx.compose.material.icons.filled.ExitToApp
@@ -57,24 +59,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.navigation.graphs.PaymentNavHost
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.Visibility
 import com.takasima.bankpapuamb.screen.common.VisibilityOff
-import com.takasima.bankpapuamb.screen.main.BottomBar
-import com.takasima.bankpapuamb.screen.main.BottomSheetContent
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PembayaranScreen(
+    homeNavController: NavHostController,
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
 ) {
-    var openBottomSheet by remember { mutableStateOf(false) }
+    var openBottomSheet = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(/*skipPartiallyExpanded = true*/)
 
@@ -85,178 +87,47 @@ fun PembayaranScreen(
     ) {
         MainBg()
 
-
-        var openBottomSheet by remember { mutableStateOf(false) }
-        val scope = rememberCoroutineScope()
-        val bottomSheetState = rememberModalBottomSheetState(/*skipPartiallyExpanded = true*/)
-
         Box(
             modifier = Modifier
         ) {
 
             Scaffold(modifier = Modifier, containerColor = Color.Transparent,
-                topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
-                        Text(
-                            text = "PEMBAYARAN",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 32.sp
-                        )
-                    }
-                }
+//                topBar = {
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .fillMaxHeight(0.08f)
+//                            .background(color = Color(0xB3AAE4F6))
+//                            .padding(horizontal = 16.dp),
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        IconButton(onClick = {
+//                            homeNavController.navigateUp()
+//                        }) {
+//                            Icon(
+//                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+//                                contentDescription = null,
+//                                Modifier.size(32.dp)
+//                            )
+//                        }
+//                        Text(
+//                            text = "PEMBAYARAN",
+//                            color = terniary,
+//                            fontWeight = FontWeight.ExtraBold,
+//                            modifier = Modifier.fillMaxWidth(),
+//                            textAlign = TextAlign.Center,
+//                            fontSize = 32.sp
+//                        )
+//                    }
+//                }
             ) {
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logobankpapua_2),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .height(100.dp)
-                    )
-
-                    Text(
-                        text = "Saldo Rekening Anda",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        color = Color.Black
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Rp.************",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            color = Color.Black
-                        )
-
-                        var passwordHidden by rememberSaveable { mutableStateOf(true) }
-                        IconButton(onClick = { passwordHidden = !passwordHidden }) {
-                            val visibilityIcon =
-                                if (passwordHidden) Visibility else VisibilityOff
-                            // Please provide localized description for accessibility services
-                            val description =
-                                if (passwordHidden) "Show password" else "Hide password"
-                            Icon(imageVector = visibilityIcon, contentDescription = description)
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Column(
-                        verticalArrangement = Arrangement.SpaceAround,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                Color(0x33063E71), shape = RoundedCornerShape(16.dp)
-                            )
-                            .padding(horizontal = 12.dp, vertical = 32.dp)
-                    ) {
-                        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.water),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-
-                                )
-                                Text(text = "Pembayaran Air")
-                            }
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.internet),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-
-                                )
-                                Text(text = "Pembayaran\nTV/Internet\nberlangganan")
-                            }
+                PaymentNavHost(homeNavController, openBottomSheet)
 
 
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-                                openBottomSheet = true
-                            }) {
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.listrik),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-
-                                )
-                                Text(text = "Pembayaran\nListrik")
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(32.dp))
-
-                        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp), verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.pendidikan),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-                                )
-                                Text(text = "Pendidikan")
-                            }
-
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.game),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-                                )
-                                Text(text = "Voucher Game")
-                            }
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                                Image(
-                                    painter = painterResource(id = R.drawable.pulsa),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp)
-                                )
-                                Text(text = "Pulsa", fontSize = 12.sp)
-                            }
-                        }
-                    }
-                }
-
-
-                if (openBottomSheet) {
+                if (openBottomSheet.value) {
                     ModalBottomSheet(
                         sheetState = bottomSheetState,
-                        onDismissRequest = { openBottomSheet = false },
+                        onDismissRequest = { openBottomSheet.value = false },
                         dragHandle = {
                             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)) {
                                 BottomSheetDefaults.DragHandle()
@@ -269,7 +140,7 @@ fun PembayaranScreen(
                         BottomSheetContentPembayaran(
                             onHideButtonClick = {
                                 scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
-                                    if (!bottomSheetState.isVisible) openBottomSheet = false
+                                    if (!bottomSheetState.isVisible) openBottomSheet.value = false
                                 }
                             },
                             modifier
@@ -333,7 +204,7 @@ fun BottomSheetContentPembayaran(
 @Preview(showBackground = true)
 @Composable
 private fun PembayaranScreenPrev() {
-    PembayaranScreen()
+    PembayaranScreen(rememberNavController())
 }
 
 @RequiresApi(Build.VERSION_CODES.S)

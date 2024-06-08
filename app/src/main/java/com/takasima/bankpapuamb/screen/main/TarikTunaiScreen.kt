@@ -1,5 +1,6 @@
 package com.takasima.bankpapuamb.screen.main
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,12 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -33,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,17 +46,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.takasima.bankpapuamb.graphs.Graph
-import com.takasima.bankpapuamb.screen.BottomBarScreen
+import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
+import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TarikTunaiScreen(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
-
+fun TarikTunaiScreen(homeNavController: NavHostController, modifier: Modifier = Modifier) {
+    val ttNavController = rememberNavController()
 
     Box(
         modifier = Modifier
@@ -94,32 +97,16 @@ fun TarikTunaiScreen(modifier: Modifier = Modifier, navController: NavHostContro
                 }
             ) {
 
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                        .padding(24.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    TTSection1()
-//                    TTSection2()
+                NavHost(navController = ttNavController, startDestination = "ttsection1") {
+                    composable("ttsection1"){
+                        TTSection1(homeNavController = homeNavController, ttNavController = ttNavController)
+                    }
+                    composable("ttsection2"){
+                        TTSection2(homeNavController = homeNavController, ttNavController = ttNavController)
+                    }
 
-//                    NavHost(
-//                        navController = navController,
-//                        route = "tarik_tunai_sect1",
-//                        startDestination = "tarik_tunai_sect1"
-//                    ) {
-//                        composable(route = "tarik_tunai_sect1") {
-//                            TTSection1()
-//                        }
-//
-//                        composable(route = "tarik_tunai_sect2") {
-//
-//                            TTSection2()
-//                        }
-//                    }
                 }
+
             }
         }
     }
@@ -128,128 +115,142 @@ fun TarikTunaiScreen(modifier: Modifier = Modifier, navController: NavHostContro
 @Preview(showBackground = true)
 @Composable
 private fun TarikTunaiScreenPrev() {
-    TarikTunaiScreen()
+    TarikTunaiScreen(rememberNavController())
 }
 
 @Composable
-fun ColumnScope.TTSection1(modifier: Modifier = Modifier) {
-    val noKartu = remember { mutableStateOf("") }
-
-    TextField(value = noKartu.value, onValueChange = { noKartu.value = it }, leadingIcon = {
-        Icon(
-            imageVector = Icons.Default.DateRange,
-            contentDescription = null
-        )
-    }, shape = RoundedCornerShape(16.dp), label = { Text(text = "Masukkan Nomor Kartu") })
-
-    Row(
+fun TTSection1(homeNavController: NavHostController,  ttNavController: NavHostController
+                           , modifier: Modifier = Modifier) {
+    Column(
         Modifier
-            .fillMaxWidth()
-            .padding(top = 32.dp, bottom = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+            .fillMaxSize()
+            .padding(24.dp)
+            .padding(top = LocalConfiguration.current.screenHeightDp.dp * 0.1f)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "100.000")
-        }
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "200.000")
-        }
-    }
+//                    TTSection1(homeNavController, modifier)
+        val noKartu = remember { mutableStateOf("") }
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "300.000")
-        }
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "400.000")
-        }
-    }
+        TextField(value = noKartu.value, onValueChange = { noKartu.value = it }, leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.DateRange,
+                contentDescription = null
+            )
+        }, shape = RoundedCornerShape(16.dp), label = { Text(text = "Masukkan Nomor Kartu") })
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "500.000")
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, bottom = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "100.000")
+            }
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "200.000")
+            }
         }
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "600.000")
-        }
-    }
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "700.000")
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "300.000")
+            }
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "400.000")
+            }
         }
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "800.000")
-        }
-    }
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "900.000")
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "500.000")
+            }
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "600.000")
+            }
         }
-        TextButton(modifier = Modifier
-            .weight(2f)
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-            onClick = { /*TODO*/ }) {
-            Text(text = "1.000.000")
+
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "700.000")
+            }
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "800.000")
+            }
         }
-    }
+
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "900.000")
+            }
+            TextButton(modifier = Modifier
+                .weight(2f)
+                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
+                onClick = { /*TODO*/ }) {
+                Text(text = "1.000.000")
+            }
+        }
 
 
-    Spacer(modifier = Modifier.height(100.dp))
-    Button(
-        modifier = Modifier.width(200.dp),
-        onClick = { /*TODO*/ },
-        colors = ButtonDefaults.buttonColors(containerColor = secondary)
-    ) {
-        Text(text = "Konfirmasi")
+        Spacer(modifier = Modifier.height(100.dp))
+        Button(
+            modifier = Modifier.width(200.dp),
+            onClick = {
+                ttNavController.navigate("ttsection2")
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = secondary)
+        ) {
+            Text(text = "Konfirmasi")
+        }
     }
 }
 
@@ -263,46 +264,62 @@ private fun TTSection1Prev() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TTSection1()
+        TTSection1(rememberNavController(), rememberNavController())
     }
 }
 
 @Composable
-fun ColumnScope.TTSection2(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(64.dp))
-    Text(
-        text = "Silahkan Masukkan Inputan ke dalam \nMesin ATM",
-        textAlign = TextAlign.Center,
-        fontSize = 18.sp
-    )
-    Spacer(modifier = Modifier.height(32.dp))
-    OptTextField(bgColor = Color.White)
-    Spacer(modifier = Modifier.height(32.dp))
-    Text(
-        text = "01:20",
-        textAlign = TextAlign.Center,
-        fontSize = 18.sp,
-        fontWeight = FontWeight.Light
-    )
-
-    Spacer(modifier = Modifier.height(100.dp))
-    Button(
-        modifier = Modifier.width(200.dp),
-        onClick = { /*TODO*/ },
-        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+fun TTSection2(homeNavController: NavHostController, ttNavController: NavHostController, modifier: Modifier = Modifier) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
+            .padding(top = LocalConfiguration.current.screenHeightDp.dp * 0.1f)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Konfirmasi")
-    }
-    TextButton(onClick = { /*TODO*/ }) {
+//                    TTSection1(homeNavController, modifier)
+        Spacer(modifier = Modifier.height(64.dp))
         Text(
-            text = "Kirim ulang kode", color = Color.White, style = TextStyle(
-                textDecoration = TextDecoration.Underline,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-
-            )
+            text = "Silahkan Masukkan Inputan ke dalam \nMesin ATM",
+            textAlign = TextAlign.Center,
+            fontSize = 18.sp
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        OptTextField(bgColor = Color.White)
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            text = "01:20",
+            textAlign = TextAlign.Center,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Light
         )
 
+        Spacer(modifier = Modifier.height(100.dp))
+        Button(
+            modifier = Modifier.width(200.dp),
+            onClick = {
+                ttNavController.popBackStack()
+                homeNavController.popBackStack()
+                homeNavController.navigate(MainRouteScreens.Home.route) {
+                }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = secondary)
+        ) {
+            Text(text = "Konfirmasi")
+        }
+        TextButton(onClick = { /*TODO*/ }) {
+            Text(
+                text = "Kirim ulang kode", color = Color.White, style = TextStyle(
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+
+                    )
+            )
+
+        }
     }
 }
 
@@ -316,6 +333,6 @@ private fun TTSection2Prev() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TTSection2()
+        TTSection2(rememberNavController(), rememberNavController())
     }
 }

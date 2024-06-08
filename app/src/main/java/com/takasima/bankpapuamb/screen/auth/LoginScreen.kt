@@ -47,7 +47,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
-import com.takasima.bankpapuamb.graphs.Graph
+import com.takasima.bankpapuamb.navigation.AuthRouteScreens
+import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.screen.common.CustomTextField1
 import com.takasima.bankpapuamb.screen.common.CustomTextField2
 import com.takasima.bankpapuamb.ui.theme.circle
@@ -227,10 +228,16 @@ fun LoginScreen(viewModel: MainViewModel, navController: NavHostController, modi
                     }
                 }
                 Spacer(modifier = Modifier.height(32.dp))
-                Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                    viewModel.login()
-                    navController.popBackStack()
-                    navController.navigate(Graph.HOME)
+                Button(modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+//                    viewModel.login()
+//                    navController.popBackStack()
+//                    navController.navigate(Graph.HOME)
+                    navController.navigate(Graph.HOME) {
+                        popUpTo(AuthRouteScreens.Login.route) {
+                            inclusive = true
+                        }
+                    }
                 }, colors = ButtonDefaults.buttonColors(containerColor = secondary)) {
                     Text(text = "LOGIN", fontWeight = FontWeight.Bold)
                 }

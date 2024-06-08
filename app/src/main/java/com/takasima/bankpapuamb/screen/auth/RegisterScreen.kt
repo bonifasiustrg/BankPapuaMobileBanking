@@ -61,6 +61,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.navigation.AuthRouteScreens
+import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
@@ -380,7 +382,13 @@ fun RegisterScreenSection2(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(90.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+//                navController.navigate(Graph.HOME) {
+//                    popUpTo(AuthRouteScreens.SignUp.route) {
+//                        inclusive = true
+//                    }
+//                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = secondary
             ),
