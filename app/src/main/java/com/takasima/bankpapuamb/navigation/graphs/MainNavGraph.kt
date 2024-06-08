@@ -8,6 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.ProfileScreen
@@ -18,7 +19,7 @@ import com.takasima.bankpapuamb.screen.main.MutationScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun MainNavGraph(rootNavController: NavHostController, homeNavController: NavHostController, openPayBottomSheet: MutableState<Boolean>) {
+fun MainNavGraph(rootNavController: NavHostController, homeNavController: NavHostController, mainViewModel: MainViewModel, openPayBottomSheet: MutableState<Boolean>) {
 
     NavHost(
         navController = homeNavController,

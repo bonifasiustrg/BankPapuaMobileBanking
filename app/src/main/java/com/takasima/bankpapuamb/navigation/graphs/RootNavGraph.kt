@@ -19,14 +19,14 @@ import com.takasima.bankpapuamb.screen.main.Dashboard
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun RootNavGraph(
-    viewModel: MainViewModel,
+    mainViewModel: MainViewModel,
     isAuth: Boolean
 ) {
     val rootNavController = rememberNavController()
 
 
-    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
-    val auth = viewModel.isLoggedIn
+    val isLoggedIn by mainViewModel.isLoggedIn.collectAsState()
+    val auth = mainViewModel.isLoggedIn
     val initialRoute =
         if (isAuth) Graph.HOME else Graph.AUTHENTICATION
 
@@ -41,10 +41,10 @@ fun RootNavGraph(
         startDestination = /*Graph.AUTHENTICATION*/initialRoute
     ) {
         composable(route = Graph.HOME) {
-            Dashboard(rootNavController)
+            Dashboard(rootNavController, mainViewModel = mainViewModel)
         }
-        authNavGraph(rootNavController = rootNavController, viewModel)
-        profileNavGraph(rootNavController, viewModel)
+        authNavGraph(rootNavController = rootNavController, mainViewModel)
+        profileNavGraph(rootNavController, mainViewModel)
     }
 }
 

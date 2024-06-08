@@ -2,66 +2,123 @@ package com.takasima.bankpapuamb
 
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.journeyapps.barcodescanner.ScanContract
 import com.takasima.bankpapuamb.data.UserPreferences
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
-import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.graphs.RootNavGraph
 import com.takasima.bankpapuamb.ui.theme.BankPapuaMobileBankingTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
+
+//    /*QR*/
+//    private var textResult = mutableStateOf("")
+//
+//    private var barCodeLauncher = registerForActivityResult(ScanContract()) {result ->
+//        if (result.contents == null) {
+//            Toast.makeText(this@MainActivity, "Cancelled", Toast.LENGTH_SHORT).show()
+//        } else {
+//            textResult.value = result.contents
+//        }
+//    }
+//
+//    private fun showCamera() {
+//        val options = ScanOptions()
+//        options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+//        options.setPrompt("Scan a QR Code")
+//        options.setCameraId(0)
+//        options.setBeepEnabled(false)
+//        options.setOrientationLocked(false)
+//
+//        barCodeLauncher.launch(options)
+//    }
+//
+//    private val requestPermissionLauncher = registerForActivityResult(
+//        ActivityResultContracts.RequestPermission()
+//    ) { isGranted ->
+//        if (isGranted) {
+//            showCamera()
+//        }
+//    }
+
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 //        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val barCodeLauncher = registerForActivityResult(ScanContract()) { result ->
+            if (result.contents == null) {
+                Toast.makeText(this@MainActivity, "Cancelled", Toast.LENGTH_SHORT).show()
+            } else {
+                mainViewModel.textResult.value = result.contents
+            }
+        }
+
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                mainViewModel.showCamera()
+            }
+        }
+
         setContent {
             SetBarColor(color = /*MaterialTheme.colorScheme.background*/Color.Transparent)
 
             val userPreferences = UserPreferences(applicationContext)
-            val factory = LoginViewModelFactory(userPreferences)
+            val factory = ViewModelFactory(userPreferences)
             val mainViewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+            mainViewModel.setBarCodeLauncher(barCodeLauncher)
+            mainViewModel.setRequestPermissionLauncher(requestPermissionLauncher)
             val isAuth = mainViewModel.isLoggedIn.collectAsState().value
 
 
             BankPapuaMobileBankingTheme {
                 RootNavGraph(mainViewModel, true)
-
+//                Column {
+//                    Text(text = textResult.value, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+//
+//                    FloatingActionButton(onClick = {
+//                        checkCameraPermission(this@MainActivity)
+//                    }) {
+//
+//                    }
+//                }
             }
 
         }
 
     }
 
-//    private fun launchLoginObserver(navController: NavHostController) {
-//        lifecycleScope.launch(Dispatchers.Main) {
-//            mainViewModel.isLoggedIn.collect { isLoggedInState ->
-//                if (!isLoggedInState) {
-//                    navController.navigate(Graph.AUTHENTICATION) {
-//                        popUpTo(0) // reset stack
-//                    }
-//                }
-//            }
+//    private fun checkCameraPermission(context : Context) {
+//        if (ContextCompat.checkSelfPermission(
+//            context,
+//            android.Manifest.permission.CAMERA
+//        ) == PackageManager.PERMISSION_GRANTED) {
+//            showCamera()
 //        }
+//        else if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
+//            Toast.makeText(this@MainActivity, "Camera required", Toast.LENGTH_SHORT).show()
+//        } else {
+//            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+//        }
+//
 //    }
+
 
 
     @Composable

@@ -43,6 +43,7 @@ import com.takasima.bankpapuamb.ui.theme.biru2
 fun BottomNavigationBar(
     items: List<NavigationItem>,
     currentRoute: String?,
+    onClickQRScan: () -> Unit,
     onClick: (NavigationItem) -> Unit,
 ) {
     val colorStops = arrayOf(
@@ -70,7 +71,7 @@ fun BottomNavigationBar(
         items.forEachIndexed { index, navigationItem ->
             if (index == 2) {
                 FloatingActionButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { onClickQRScan() },
                     modifier = Modifier
                         .size(72.dp)
 //                        .padding(16.dp)
