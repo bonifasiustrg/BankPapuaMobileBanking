@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
@@ -25,6 +26,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,21 +65,26 @@ fun FavoriteScreen(homeNavController: NavHostController, modifier: Modifier = Mo
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            homeNavController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
                             text = "FAVORITE",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 24.sp
                         )
                     }
                 }

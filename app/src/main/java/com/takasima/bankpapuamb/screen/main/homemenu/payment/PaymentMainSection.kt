@@ -1,5 +1,7 @@
-package com.takasima.bankpapuamb.screen.main.payment
+package com.takasima.bankpapuamb.screen.main.homemenu.payment
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,19 +19,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.AddToHomeScreen
-import androidx.compose.material.icons.automirrored.filled.Backspace
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,23 +47,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.takasima.bankpapuamb.R
-import com.takasima.bankpapuamb.navigation.AuthRouteScreens
-import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
+import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
+import com.takasima.bankpapuamb.screen.common.BottomSheetContentPembayaran
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.Visibility
 import com.takasima.bankpapuamb.screen.common.VisibilityOff
+import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.S)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentMainSection(
     homeNavController: NavHostController,
     paymentNavController: NavHostController,
-    openBottomSheet: MutableState<Boolean>,
     modifier: Modifier = Modifier,
 
 ) {
+    var openBottomSheet = remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(/*skipPartiallyExpanded = true*/)
 
 
     Box(
@@ -78,13 +88,14 @@ fun PaymentMainSection(
                             .fillMaxWidth()
                             .fillMaxHeight(0.10f)
                             .background(color = Color.Transparent)
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             IconButton(onClick = {
-                                homeNavController.navigate(Graph.PROFILE) {
+                                homeNavController.navigate(ProfileRouteScreens.Profile.route) {
                                     popUpTo(MainRouteScreens.Home.route) {
                                         inclusive = true
                                     }
@@ -210,7 +221,8 @@ fun PaymentMainSection(
                             Column(horizontalAlignment = Alignment.CenterHorizontally,
 
                                 modifier = Modifier.clickable {
-                                    paymentNavController.navigate(PaymentMenuScreens.InternetScreen.route)
+//                                    paymentNavController.navigate(PaymentMenuScreens.InternetScreen.route)
+                                    openBottomSheet.value = !openBottomSheet.value
                                 }
                             ) {
 
@@ -227,7 +239,7 @@ fun PaymentMainSection(
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.clickable {
-                                    openBottomSheet.value = true
+                                    paymentNavController.navigate(PaymentMenuScreens.ListrikScreen.route)
                                 }) {
 
                                 Image(
@@ -236,7 +248,7 @@ fun PaymentMainSection(
                                     modifier = Modifier.size(48.dp)
 
                                 )
-                                Text(text = "Pembayaran\nListrik", fontSize = 12.sp)
+                                Text(text = "Pembayaran\nListrik", fontSize = 12.sp, textAlign = TextAlign.Center)
                             }
                         }
 
@@ -289,6 +301,31 @@ fun PaymentMainSection(
                                 Text(text = "Pulsa", fontSize = 12.sp)
                             }
                         }
+                    }
+                }
+
+                if (openBottomSheet.value) {
+                    ModalBottomSheet(
+                        sheetState = bottomSheetState,
+                        onDismissRequest = { openBottomSheet.value = false },
+                        dragHandle = {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)) {
+                                BottomSheetDefaults.DragHandle()
+                                Text(text = "TRANSFER", fontWeight = FontWeight.ExtraBold, fontSize = 32.sp)
+                                Spacer(modifier = modifier.height(10.dp))
+                                Divider()
+                            }
+                        }
+                    ) {
+                        BottomSheetContentPembayaran(
+                            homeNavController = homeNavController,
+                            onHideButtonClick = {
+                                scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+                                    if (!bottomSheetState.isVisible) openBottomSheet.value = false
+                                }
+                            },
+                            modifier
+                        )
                     }
                 }
             }

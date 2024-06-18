@@ -1,11 +1,10 @@
-package com.takasima.bankpapuamb.screen.main
+package com.takasima.bankpapuamb.screen.main.homemenu
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,11 +18,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,7 +46,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.OptTextField
@@ -77,21 +76,26 @@ fun TarikTunaiScreen(homeNavController: NavHostController, modifier: Modifier = 
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            homeNavController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
-                            text = "TARIK TUNAI",
+                            text = "Tarik Tunai",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 24.sp
                         )
                     }
                 }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,14 +21,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -48,7 +45,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,11 +55,10 @@ import com.takasima.bankpapuamb.navigation.AuthRouteScreens
 import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
+import com.takasima.bankpapuamb.screen.common.BottomSheetContent
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.Visibility
 import com.takasima.bankpapuamb.screen.common.VisibilityOff
-import com.takasima.bankpapuamb.ui.theme.terniary
-import com.takasima.bankpapuamb.ui.theme.terniary2
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -99,6 +94,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .fillMaxHeight(0.10f)
                             .background(color = Color.Transparent)
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
@@ -183,20 +179,21 @@ fun HomeScreen(
                         color = Color.Black
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        var isSaldoHidden by rememberSaveable { mutableStateOf(true) }
+
                         Text(
-                            text = "Rp.************",
+                            text = if (isSaldoHidden) "Rp****" else "Rp1.000.000",
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color.Black
                         )
 
-                        var passwordHidden by rememberSaveable { mutableStateOf(true) }
-                        IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                        IconButton(onClick = { isSaldoHidden = !isSaldoHidden }) {
                             val visibilityIcon =
-                                if (passwordHidden) Visibility else VisibilityOff
+                                if (isSaldoHidden) Visibility else VisibilityOff
                             // Please provide localized description for accessibility services
                             val description =
-                                if (passwordHidden) "Show password" else "Hide password"
+                                if (isSaldoHidden) "Show saldo" else "Hide saldo"
                             Icon(imageVector = visibilityIcon, contentDescription = description)
                         }
                     }
@@ -265,7 +262,7 @@ fun HomeScreen(
                             }
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-                                homeNavController.navigate(FeatureRouteScreens.PembayaranScreen.route)
+                                homeNavController.navigate(FeatureRouteScreens.PembayaranMainSection.route)
                             }) {
 
                                 Image(
@@ -303,7 +300,7 @@ fun HomeScreen(
                             }) {
 
                                 Image(
-                                    painter = painterResource(id = R.drawable.travel),
+                                    painter = painterResource(id = R.drawable.bpjs),
                                     contentDescription = null,
                                     modifier = Modifier.size(64.dp)
                                 )
@@ -369,6 +366,7 @@ fun HomeScreen(
                                         false
                                 }
                             },
+                            homeNavController = homeNavController,
                             modifier
                         )
                     }
@@ -387,88 +385,4 @@ private fun HomeScreenPrev() {
     })
 }
 
-@RequiresApi(Build.VERSION_CODES.S)
-@Composable
-fun BottomSheetContent(
-    onHideButtonClick: () -> Unit,
-    modifier: Modifier
-) {
 
-    Column(
-        modifier
-            .padding(horizontal = 16.dp, vertical = 24.dp)
-            .fillMaxWidth(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Top
-        ) {
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    onClick = { /*TODO*/ }, modifier = Modifier
-                        .width(90.dp)
-                        .background(Color(0xFF3D9EF8), shape = RoundedCornerShape(8.dp))
-                        .padding(vertical = 8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bank_tujuan_ic),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-                Text(text = "TRANSFER ANTAR BANK", fontSize = 10.sp)
-            }
-
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    onClick = { /*TODO*/ }, modifier = Modifier
-                        .width(90.dp)
-                        .background(Color(0xFF3D9EF8), shape = RoundedCornerShape(8.dp))
-                        .padding(vertical = 8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bank_sesama_ic),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-                Text(text = "TRANSFER SESAMA BANK", fontSize = 10.sp)
-            }
-
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(
-                    onClick = { /*TODO*/ }, modifier = Modifier
-                        .width(90.dp)
-                        .background(Color(0xFF3D9EF8), shape = RoundedCornerShape(8.dp))
-                        .padding(vertical = 8.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.bifast_ic),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-                Text(text = "BI FAST", fontSize = 10.sp)
-            }
-        }
-
-        Spacer(modifier = Modifier.height(48.dp))
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.S)
-@Preview(showBackground = true)
-@Composable
-private fun BtSheetPrev() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        BottomSheetContent(
-            onHideButtonClick = { },
-            modifier = Modifier
-        )
-    }
-}

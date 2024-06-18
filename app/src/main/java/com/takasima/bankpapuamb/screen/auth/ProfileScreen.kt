@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.screen
+package com.takasima.bankpapuamb.screen.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,14 +39,14 @@ import com.takasima.bankpapuamb.navigation.AuthRouteScreens
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
-import com.takasima.bankpapuamb.screen.main.TFSesamaScreenSection1
 import com.takasima.bankpapuamb.ui.theme.biru2
 import com.takasima.bankpapuamb.ui.theme.lightgrey
+import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
 @Composable
-fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: Modifier = Modifier) {
+fun ProfileScreen(name: String, rootNavController: NavHostController, profileNavController: NavHostController, modifier: Modifier = Modifier) {
 
 
     Box(
@@ -100,23 +100,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    TextButton(
-                        modifier = Modifier.align(Alignment.End),
-                        onClick = {
-                            rootNavController.navigate(AuthRouteScreens.Login.route) {
-                                popUpTo(Graph.HOME) {
-                                    inclusive = true
-                                }
 
-                                launchSingleTop = true
-                            }
-                    }) {
-                        Text(
-                            text = "Logout",
-                            fontSize = 12.sp,
-                            color = Color.Gray,
-                        )
-                    }
 
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Image(
@@ -142,7 +126,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
 
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.SettingAkun.route) {
+                            profileNavController.navigate(ProfileRouteScreens.SettingAkun.route) {
 
                             }
                         },
@@ -164,7 +148,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
 
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.SettingRekening.route)
+                            profileNavController.navigate(ProfileRouteScreens.SettingRekening.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -244,7 +228,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
                     )
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.SnK.route)
+                            profileNavController.navigate(ProfileRouteScreens.SnK.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -281,6 +265,27 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
                             modifier= Modifier.fillMaxWidth()
                         )
                     }
+
+                    Button(
+                        modifier = modifier.align(Alignment.CenterHorizontally),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = secondary,
+                            contentColor = Color.White
+                        ),
+                        onClick = {
+                            rootNavController.navigate(AuthRouteScreens.Login.route) {
+                                popUpTo(Graph.HOME) {
+                                    inclusive = true
+                                }
+
+                                launchSingleTop = true
+                            }
+                        }) {
+                        Text(
+                            text = "Keluar",
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
         }
@@ -290,5 +295,5 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, modifier: 
 @Preview(showBackground = true)
 @Composable
 private fun TFAntarBankScreenPrev() {
-    ProfileScreen("Profile Screen", rememberNavController())
+    ProfileScreen("Profile Screen", rememberNavController(), rememberNavController())
 }

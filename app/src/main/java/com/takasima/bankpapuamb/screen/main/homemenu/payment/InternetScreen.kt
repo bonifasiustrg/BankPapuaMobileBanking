@@ -1,6 +1,5 @@
-package com.takasima.bankpapuamb.screen.main.payment
+package com.takasima.bankpapuamb.screen.main.homemenu.payment
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,15 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.ContactMail
-import androidx.compose.material.icons.outlined.School
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -49,7 +46,7 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 
 
 @Composable
-fun PendidikanScreen(
+fun InternetScreen(
     modifier: Modifier = Modifier,
     homeNavController: NavHostController,
     paymentNavController: NavHostController
@@ -77,13 +74,17 @@ fun PendidikanScreen(
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            paymentNavController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
-                            text = "PENDIDIKAN",
+                            text = "INTERNET",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
@@ -101,7 +102,7 @@ fun PendidikanScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    PendidikanScreenSection1()
+                    InternetScreenSection1()
                 }
             }
         }
@@ -109,11 +110,11 @@ fun PendidikanScreen(
 }
 
 @Composable
-fun ColumnScope.PendidikanScreenSection1(modifier: Modifier = Modifier) {
+fun ColumnScope.InternetScreenSection1(modifier: Modifier = Modifier) {
     val noRek = remember { mutableStateOf("") }
 
     Text(
-        text = "BAYAR PENDIDIKAN",
+        text = "BAYAR INTERNET",
         color = terniary,
         fontWeight = FontWeight.ExtraBold,
         modifier = Modifier.fillMaxWidth(),
@@ -122,31 +123,6 @@ fun ColumnScope.PendidikanScreenSection1(modifier: Modifier = Modifier) {
     )
 
     Spacer(modifier = Modifier.height(32.dp))
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White, RoundedCornerShape(16.dp))
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            imageVector = Icons.Outlined.School,
-            contentDescription = null,
-            modifier = modifier.size(48.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = "PILIH UNIVERSITAS",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = modifier.weight(1f)
-        )
-        IconButton(onClick = { /*TODO*/ }) {
-            Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
-        }
-    }
-
-    Spacer(modifier = Modifier.height(24.dp))
 
 
     TextField(
@@ -165,21 +141,25 @@ fun ColumnScope.PendidikanScreenSection1(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(16.dp),
         placeholder = { Text(text = "NOMOR PELANGGAN ") }
     )
+
     Spacer(modifier = Modifier.height(100.dp))
     Button(
-        modifier = Modifier.width(200.dp).align(Alignment.CenterHorizontally),
+        modifier = Modifier
+            .width(200.dp)
+            .align(Alignment.CenterHorizontally),
         onClick = { /*TODO*/ },
         colors = ButtonDefaults.buttonColors(containerColor = secondary)
     ) {
         Text(text = "Konfirmasi")
     }
+
 }
 
 
 @Preview(showBackground = true)
 @Composable
-private fun PendidikanScreenPrev() {
-    PendidikanScreen(
+private fun InternetScreenPrev() {
+    InternetScreen(
         homeNavController = rememberNavController(),
         paymentNavController = rememberNavController()
     )

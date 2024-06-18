@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.screen.main.payment
+package com.takasima.bankpapuamb.screen.main.homemenu.payment
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ConnectedTv
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -38,6 +39,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -60,6 +62,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
+import com.takasima.bankpapuamb.screen.common.ExposedDropdownMenu
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.SecurityScreen
 import com.takasima.bankpapuamb.screen.common.TagihanSection1
@@ -103,21 +106,26 @@ fun AirScreen(
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            paymentNavController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
                             text = "PEMBAYARAN AIR",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 24.sp
                         )
                     }
                 }
@@ -127,7 +135,9 @@ fun AirScreen(
                         AirScreenSection1(paymentNavController = paymentNavController, airNavController = airNavController, openBottomSheet = openBottomSheet)
                     }
                     composable("airtagihan1"){
-                        TagihanSection1(paymentNavController, airNavController)
+                        TagihanSection1(paymentNavController, airNavController, onConfirm = {
+                            airNavController.navigate("airtagihan2")
+                        })
                     }
                     composable("airtagihan2"){
                         TagihanSection2(paymentNavController, airNavController)
@@ -193,31 +203,33 @@ fun AirScreenSection1(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White, RoundedCornerShape(16.dp))
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .clickable {
-                    openBottomSheet.value = !openBottomSheet.value
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                imageVector = Icons.Outlined.LocationOn,
-                contentDescription = null,
-                modifier = modifier.size(48.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = "PILIH LOKASI",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = modifier.weight(1f)
-            )
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
-            }
-        }
+//        Row(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(Color.White, RoundedCornerShape(16.dp))
+//                .padding(horizontal = 16.dp, vertical = 8.dp)
+//                .clickable {
+//                    openBottomSheet.value = !openBottomSheet.value
+//                },
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Image(
+//                imageVector = Icons.Outlined.LocationOn,
+//                contentDescription = null,
+//                modifier = modifier.size(48.dp)
+//            )
+//            Spacer(modifier = Modifier.width(16.dp))
+//            Text(
+//                text = "PILIH LOKASI",
+//                style = MaterialTheme.typography.titleMedium,
+//                modifier = modifier.weight(1f)
+//            )
+//            IconButton(onClick = { /*TODO*/ }) {
+//                Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
+//            }
+//
+//        }
+        ExposedDropdownMenu("lokasi")
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -225,6 +237,10 @@ fun AirScreenSection1(
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = noRek.value,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White
+            ),
             onValueChange = { noRek.value = it },
             leadingIcon = {
                 Icon(
@@ -232,7 +248,7 @@ fun AirScreenSection1(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .size(48.dp)
+                        .size(32.dp)
                 )
             },
             shape = RoundedCornerShape(16.dp),

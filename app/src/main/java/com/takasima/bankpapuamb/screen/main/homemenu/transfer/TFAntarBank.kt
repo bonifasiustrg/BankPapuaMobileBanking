@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.screen.main
+package com.takasima.bankpapuamb.screen.main.homemenu.transfer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,25 +20,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomSheetDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -49,23 +50,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
-import com.takasima.bankpapuamb.data.viewmodel.DompetkuViewModel
+import com.takasima.bankpapuamb.ui.theme.secondary
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TFAntarBankScreen(modifier: Modifier = Modifier) {
+fun TFAntarBankScreen(homeNavController: NavHostController, modifier: Modifier = Modifier) {
+    var openBottomSheet = remember { mutableStateOf(false) }
+    val scope = rememberModalBottomSheetState()
+    val bottomSheetState = rememberModalBottomSheetState(/*skipPartiallyExpanded = true*/)
 
 
     Box(
@@ -86,21 +90,27 @@ fun TFAntarBankScreen(modifier: Modifier = Modifier) {
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
+
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = {
+                            homeNavController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
                             text = "TRANSFER ANTAR BANK",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 20.sp
                         )
                     }
                 }
@@ -113,10 +123,36 @@ fun TFAntarBankScreen(modifier: Modifier = Modifier) {
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
-//                    TFAntarBankSection1()
-                    PilihBankSection()
+                    TFAntarBankSection1(homeNavController = homeNavController)
+//                    PilihBankSection()
+                }
+
+                if (openBottomSheet.value) {
+                    ModalBottomSheet(
+                        sheetState = bottomSheetState,
+                        onDismissRequest = { openBottomSheet.value = false },
+                        dragHandle = {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                            ) {
+                                BottomSheetDefaults.DragHandle()
+                                Text(
+                                    text = "Pembayaran",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 32.sp
+                                )
+                                Spacer(modifier = modifier.height(10.dp))
+                                Divider()
+                            }
+                        },
+                    ) {
+                        PilihBankSection()
+                    }
                 }
             }
+
+
         }
     }
 }
@@ -124,11 +160,11 @@ fun TFAntarBankScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun TFAntarBankScreenPrev() {
-    TFAntarBankScreen()
+    TFAntarBankScreen(rememberNavController())
 }
 
 @Composable
-fun ColumnScope.TFAntarBankSection1(modifier: Modifier = Modifier) {
+fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifier: Modifier = Modifier) {
     val noRek = remember { mutableStateOf("") }
     val nominal = remember { mutableIntStateOf(0) }
     Row(
@@ -213,6 +249,24 @@ fun ColumnScope.TFAntarBankSection1(modifier: Modifier = Modifier) {
             modifier = modifier.weight(1f)
         )
     }
+    Spacer(modifier = Modifier.weight(2f))
+
+    Button(
+        modifier = Modifier
+            .width(200.dp)
+            .align(Alignment.CenterHorizontally),
+        onClick = {
+//            homeNavController.navigate(MainRouteScreens.Home.route)
+//            homeNavController.popBackStack()
+            homeNavController.navigate("invoice")
+
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+    ) {
+        Text(text = "Konfirmasi")
+    }
+
+    Spacer(modifier = Modifier.height(64.dp))
 
 }
 

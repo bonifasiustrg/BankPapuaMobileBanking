@@ -5,7 +5,7 @@ object Graph {
     const val AUTHENTICATION = "auth_graph"
     const val HOME = "home_graph"
     const val PROFILE = "profile_graph"
-    const val DETAILS = "details_graph"
+    const val PAYMENT = "payment_graph"
 }
 
 sealed class MainRouteScreens(var route: String) {
@@ -15,7 +15,11 @@ sealed class MainRouteScreens(var route: String) {
     object  History : MainRouteScreens("history")
     object  Atm : MainRouteScreens("atm")
     object  Profile : MainRouteScreens("profile")
+
+    object  BIFast : MainRouteScreens("bifast")
     object  QRIS : MainRouteScreens("qris")
+    object  TfSesamaBank : MainRouteScreens("tfsesamabank")
+    object  TfAntarBank : MainRouteScreens("tfantarbank")
 }
 
 sealed class AuthRouteScreens(var route: String) {
@@ -28,12 +32,18 @@ sealed class AuthRouteScreens(var route: String) {
 sealed class ProfileRouteScreens(var route: String) {
 
     object Profile : ProfileRouteScreens("profile")
-    object SettingAkun : ProfileRouteScreens("setting_akun")
     object SettingRekening : ProfileRouteScreens("setting_rekening")
     object Kurs : ProfileRouteScreens("kurs")
     object Lokasi : ProfileRouteScreens("lokasi")
     object SnK : ProfileRouteScreens("snk")
     object Help : ProfileRouteScreens("help")
+
+    /*SETTING AKUN*/
+    object SettingAkun : ProfileRouteScreens("setting_akun")
+    object UbahPass : ProfileRouteScreens("ubah_pass")
+    object UbahPIN : ProfileRouteScreens("ubah_pin")
+    object UbahNoHP : ProfileRouteScreens("ubah_nohp")
+    object UbahEmail : ProfileRouteScreens("ubah_email")
 }
 
 /*FEATURE*/
@@ -56,4 +66,6 @@ sealed class PaymentMenuScreens(var route: String) {
     object  Pendidikan : PaymentMenuScreens("pendidikan")
     object  GameScreen : PaymentMenuScreens("game")
     object  PulsaScreen : PaymentMenuScreens("pulsa")
+    object  PaymentSummary : PaymentMenuScreens("summary")
+    object  ListrikScreen : PaymentMenuScreens("listrik")
 }

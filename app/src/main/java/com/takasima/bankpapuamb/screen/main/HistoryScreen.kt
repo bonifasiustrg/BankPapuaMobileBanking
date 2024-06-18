@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -69,6 +70,7 @@ fun HistoryScreen(rootNavController: NavHostController, homeNavController: NavHo
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -88,7 +90,7 @@ fun HistoryScreen(rootNavController: NavHostController, homeNavController: NavHo
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 24.sp
                         )
                     }
                 }
@@ -116,9 +118,17 @@ fun HistoryScreen(rootNavController: NavHostController, homeNavController: NavHo
 
 @Composable
 fun HistoryItem(modifier: Modifier = Modifier) {
-    Card(modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Card(
+        modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp), colors = CardDefaults.cardColors(
+                containerColor = Color(0x66C5C5C5)
+            )) {
         Row(Modifier.padding(16.dp)) {
-            Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null)
+            Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null, tint = Color(
+                0xFF009688
+            )
+            )
             Spacer(modifier = Modifier.width(16.dp))
 
             Column(Modifier.weight(2f)) {
@@ -132,7 +142,7 @@ fun HistoryItem(modifier: Modifier = Modifier) {
                 Button(
                     onClick = { /*TODO*/ },
                     contentPadding = PaddingValues(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Green),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF009688)),
                     modifier = Modifier
 //                        .defaultMinSize(1.dp)
                         .size(width = 100.dp, height = 24.dp)
@@ -157,7 +167,7 @@ fun HistoryItem(modifier: Modifier = Modifier) {
 //                        shape = RoundedCornerShape(48.dp)
 //                    )
                 ) {
-                    Text(text = "Berhasil", color = Color(0xFFFDB807))
+                    Text(text = "Detail", color = Color(0xFFFDB807))
                 }
             }
         }

@@ -38,7 +38,7 @@ import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.ui.theme.secondary
 
 @Composable
-fun TagihanSection1(menuNavController: NavHostController, detailNavController: NavHostController, detailViewModel: DompetkuViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun TagihanSection1(homeNavController: NavHostController, menuNavController: NavHostController, onConfirm:()->Unit, detailViewModel: DompetkuViewModel = viewModel(), modifier: Modifier = Modifier) {
     val options = detailViewModel.options
     val noTelp = remember { mutableStateOf("") }
     val nominal = remember { mutableIntStateOf(0) }
@@ -84,10 +84,7 @@ fun TagihanSection1(menuNavController: NavHostController, detailNavController: N
             modifier = Modifier
                 .width(200.dp)
                 .align(Alignment.CenterHorizontally),
-            onClick = {
-                detailNavController.navigate("airtagihan2")
-
-            },
+            onClick =  onConfirm,
             colors = ButtonDefaults.buttonColors(containerColor = secondary)
         ) {
             Text(text = "Konfirmasi")

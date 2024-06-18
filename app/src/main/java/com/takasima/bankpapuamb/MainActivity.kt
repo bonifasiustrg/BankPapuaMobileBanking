@@ -14,11 +14,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.journeyapps.barcodescanner.ScanContract
 import com.takasima.bankpapuamb.data.UserPreferences
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.graphs.RootNavGraph
+import com.takasima.bankpapuamb.screen.main.homemenu.payment.game.GameScreen
 import com.takasima.bankpapuamb.ui.theme.BankPapuaMobileBankingTheme
 
 class MainActivity : ComponentActivity() {
@@ -89,15 +91,7 @@ class MainActivity : ComponentActivity() {
 
             BankPapuaMobileBankingTheme {
                 RootNavGraph(mainViewModel, true)
-//                Column {
-//                    Text(text = textResult.value, fontSize = 30.sp, fontWeight = FontWeight.Bold)
-//
-//                    FloatingActionButton(onClick = {
-//                        checkCameraPermission(this@MainActivity)
-//                    }) {
-//
-//                    }
-//                }
+//                GameScreen(homeNavController = rememberNavController())
             }
 
         }

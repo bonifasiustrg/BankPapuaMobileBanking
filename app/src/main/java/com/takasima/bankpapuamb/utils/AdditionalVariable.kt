@@ -1,5 +1,7 @@
 package com.takasima.bankpapuamb.utils
 
+import com.takasima.bankpapuamb.R
+
 val provinces = listOf(
     "Aceh",
     "Sumatera Utara",
@@ -39,4 +41,82 @@ val provinces = listOf(
     "Papua Pegunungan",
     "Papua Tengah",
     "Papua Barat Daya"
+)
+
+val providers = listOf(
+    Pair("Telkomsel", R.drawable.telkomsel_icon),
+    Pair("Indosat Ooredoo", R.drawable.indosat),
+    Pair("XL Axiata", R.drawable.xl),
+    Pair("Smartfren", R.drawable.smartfren),
+//    "Tri (3)",
+//    "Axis",
+//    "By.U"
+)
+
+val jenisBpjs = listOf(
+    "BPJS Kesehatan",
+    "BPJS Ketenagakerjaan",
+    "BPJS Jaminan Kecelakaan Kerja",
+    "BPJS Jaminan Hari Tua",
+    "BPJS Jaminan Pensiun",
+    "BPJS Jaminan Kematian"
+)
+
+val daftarUnivIndo = listOf(
+    "Universitas Indonesia",
+    "Institut Teknologi Bandung",
+    "Universitas Gadjah Mada",
+    "Institut Pertanian Bogor",
+    "Universitas Airlangga",
+    "Universitas Diponegoro",
+    "Universitas Brawijaya",
+    "Institut Teknologi Sepuluh Nopember",
+    "Universitas Padjadjaran",
+    "Universitas Hasanuddin",
+    "Universitas Sebelas Maret",
+    "Universitas Sumatera Utara",
+    "Universitas Andalas",
+    "Universitas Udayana",
+    "Universitas Pendidikan Indonesia",
+    "Universitas Islam Indonesia",
+    "Universitas Muhammadiyah Yogyakarta",
+    "Universitas Telkom",
+    "Universitas Parahyangan",
+    "Universitas Bina Nusantara"
+)
+
+val lokasiList = listOf(
+    "Kabupaten Bandung",
+    "Kabupaten Bandung Barat",
+    "Kabupaten Bekasi",
+    "Kabupaten Bogor",
+    "Kabupaten Ciamis",
+    "Kabupaten Cianjur",
+    "Kabupaten Cirebon",
+    "Kabupaten Garut",
+    "Kabupaten Indramayu",
+    "Kabupaten Karawang",
+    "Kabupaten Kuningan",
+    "Kabupaten Majalengka",
+    "Kabupaten Pangandaran",
+    "Kabupaten Purwakarta",
+    "Kabupaten Subang",
+    "Kabupaten Sukabumi",
+    "Kabupaten Sumedang",
+    "Kabupaten Tasikmalaya",
+    "Kota Bandung",
+    "Kota Banjar",
+    "Kota Bekasi",
+    "Kota Bogor",
+    "Kota Cimahi",
+    "Kota Cirebon",
+    "Kota Depok",
+    "Kota Sukabumi",
+    "Kota Tasikmalaya"
+)
+
+val gameWallet = listOf(
+    Pair("STEAM WALLET IDR", R.drawable.steam),
+    Pair("Voucher Google Play", R.drawable.google_play),
+    Pair("CODASHOP", R.drawable.codashop),
 )

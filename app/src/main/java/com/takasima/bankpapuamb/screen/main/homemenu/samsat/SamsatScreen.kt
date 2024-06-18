@@ -1,10 +1,9 @@
-package com.takasima.bankpapuamb.screen.main.samsat
+package com.takasima.bankpapuamb.screen.main.homemenu.samsat
 
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,29 +18,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ConnectedTv
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -67,21 +56,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
-import com.takasima.bankpapuamb.navigation.MainRouteScreens
+import com.takasima.bankpapuamb.data.model.Invoice
+import com.takasima.bankpapuamb.screen.common.BottomSheetContentSamsat
 import com.takasima.bankpapuamb.screen.common.ExposedDropdownMenu
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.VehicleNumberTextField
-import com.takasima.bankpapuamb.screen.common.formatVehicleNumber
-import com.takasima.bankpapuamb.screen.main.HistoryItem
-import com.takasima.bankpapuamb.screen.main.TTSection1
-import com.takasima.bankpapuamb.screen.main.TTSection2
-import com.takasima.bankpapuamb.screen.main.payment.BottomSheetContentPembayaran
+import com.takasima.bankpapuamb.screen.main.InvoiceScreen
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -108,6 +94,7 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -122,18 +109,32 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
                             textAlign = TextAlign.Center,
-                            fontSize = 32.sp
+                            fontSize = 24.sp
                         )
                     }
                 }
-            ) {paddingValues->
+            ) { paddingValues ->
 //                ESamsatSection1(paddingValues = it)
                 NavHost(navController = samsatNavController, startDestination = "samsatsection1") {
-                    composable("samsatsection1"){
-                        ESamsatSection1(paddingValues = paddingValues, homeNavController = homeNavController, samsatNavController = samsatNavController, openBottomSheet = openBottomSheet)
+                    composable("samsatsection1") {
+                        ESamsatSection1(
+                            paddingValues = paddingValues,
+                            homeNavController = homeNavController,
+                            samsatNavController = samsatNavController,
+                            openBottomSheet = openBottomSheet
+                        )
                     }
-                    composable("samsatsection2"){
-                        ESamsatSection2(paddingValues = paddingValues, samsatNavController = samsatNavController, homeNavController = homeNavController)
+                    composable("invoice") {
+                        InvoiceScreen(
+                            paddingValues = paddingValues,
+                            menuNavController = samsatNavController,
+                            homeNavController = homeNavController,
+                            invoice = Invoice(
+                                "xxxxxxxxxxxxx", "FREDERIKUS MAHUZE", "DD/MM/YYYY",
+                                rekAsal = " 9102232123", jenisTransaksi = "",
+                                nominal = 500_000
+                            )
+                        )
                     }
 
                 }
@@ -176,7 +177,13 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
 }
 
 @Composable
-fun ESamsatSection1(paddingValues: PaddingValues, homeNavController: NavHostController, samsatNavController: NavHostController,modifier: Modifier = Modifier, openBottomSheet: MutableState<Boolean>) {
+fun ESamsatSection1(
+    paddingValues: PaddingValues,
+    homeNavController: NavHostController,
+    samsatNavController: NavHostController,
+    modifier: Modifier = Modifier,
+    openBottomSheet: MutableState<Boolean>
+) {
     var kodeBayar by remember { mutableStateOf("") }
 
     Column(
@@ -199,7 +206,7 @@ fun ESamsatSection1(paddingValues: PaddingValues, homeNavController: NavHostCont
             horizontalAlignment = Alignment.Start
         ) {
             Text(text = "PILIH PROVINSI", fontWeight = FontWeight.Bold)
-            ExposedDropdownMenu()
+            ExposedDropdownMenu("province")
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "MASUKKAN NOMOR KENDARAAN", fontWeight = FontWeight.Bold)
@@ -228,7 +235,7 @@ fun ESamsatSection1(paddingValues: PaddingValues, homeNavController: NavHostCont
                     .width(200.dp)
                     .align(Alignment.CenterHorizontally),
                 onClick = {
-                        openBottomSheet.value = !openBottomSheet.value
+                    openBottomSheet.value = !openBottomSheet.value
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = secondary)
             ) {
@@ -269,120 +276,8 @@ fun ESamsatSection1(paddingValues: PaddingValues, homeNavController: NavHostCont
     }
 }
 
-@Composable
-fun ESamsatSection2(paddingValues: PaddingValues, samsatNavController: NavHostController, homeNavController: NavHostController,modifier: Modifier = Modifier) {
-    var kodeBayar by remember { mutableStateOf("") }
-
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Column(
-            Modifier
-                .wrapContentHeight()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(text = "TRANSAKSI BERHHASIL", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-//                    .padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-
-                    Text(text = "Detail", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                    Text(text = "Nomor Referensi    : xxxxxxxxxxxxx")
-                    Text(text = "Dari Rekening      : 9102232123")
-                    Text(text = "Jenis Transaksi    : Pembayaran pajak  tahunan")
-                    Text(text = "Nomor Kendaraan    : PA7215KX")
-                    Text(text = "Nama               : XXXXXXX")
-                    Text(text = "Nominal            : RP.550.000")
-                    Text(text = "Biaya Admin        : Rp.0")
-                    Text(
-                        text = "TOTAL             : Rp.550.000",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-        Button(
-            modifier = Modifier
-                .width(200.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = {
-                samsatNavController.popBackStack()
-                homeNavController.popBackStack()
-                homeNavController.navigate(MainRouteScreens.Home.route)
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = secondary),
-        ) {
-            Icon(imageVector = Icons.Default.Share, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Text(text = "BAGIKAN")
-        }
-    }
-
-
-}
 
 @RequiresApi(Build.VERSION_CODES.S)
-@Composable
-fun BottomSheetContentSamsat(
-    onHideButtonClick: () -> Unit,
-    modifier: Modifier,
-    samsatNavController: NavHostController,
-    openBottomSheet: MutableState<Boolean>
-) {
-
-    Column(
-        modifier
-            .padding(horizontal = 16.dp, vertical = 24.dp)
-            .fillMaxWidth(),
-//        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Anda akan membayar Pajak Tahunan kendaraan Bermotor dengan detail :")
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = "PROVINSI                       : PAPUA SELATAN")
-        Text(text = "NOMOR KENDARAAN                : PA7215KX")
-        Text(text = "NAMA PEMILIK                   : Frederikus Mahuze")
-        Text(text = "Nominal                        : 550.000")
-
-
-        Spacer(modifier = Modifier.height(48.dp))
-
-        Button(
-            modifier = Modifier
-                .width(200.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = {
-                openBottomSheet.value = false
-                samsatNavController.navigate("samsatsection2")
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = secondary)
-        ) {
-            Text(text = "Konfirmasi")
-        }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun ESamsatPrev() {
@@ -392,21 +287,11 @@ private fun ESamsatPrev() {
 @Preview(showBackground = true)
 @Composable
 private fun ESamsatPrev2() {
-    ESamsatSection1(paddingValues = PaddingValues(), rememberNavController(), rememberNavController(), openBottomSheet = remember {
-        mutableStateOf(true)
-    })
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ESamsatPrev3() {
-    ESamsatSection2(paddingValues = PaddingValues(), rememberNavController(), rememberNavController())
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ESamsatPrev4() {
-    BottomSheetContentSamsat({}, Modifier, rememberNavController(), remember {
-        mutableStateOf(true)
-    })
+    ESamsatSection1(
+        paddingValues = PaddingValues(),
+        rememberNavController(),
+        rememberNavController(),
+        openBottomSheet = remember {
+            mutableStateOf(true)
+        })
 }

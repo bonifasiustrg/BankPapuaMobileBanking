@@ -7,25 +7,19 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -44,10 +38,10 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 @Composable
 fun Dashboard(
     rootNavController: NavHostController,
-    mainNavController: NavHostController = rememberNavController(),
-    mainViewModel: MainViewModel, /*= androidx.lifecycle.viewmodel.compose.viewModel()*/
+    mainViewModel: MainViewModel,
     modifier: Modifier = Modifier,
 ) {
+    val mainNavController = rememberNavController()
     var openPayBottomSheet = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()

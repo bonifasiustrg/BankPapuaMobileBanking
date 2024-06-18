@@ -40,11 +40,13 @@ fun RootNavGraph(
         route = Graph.ROOT,
         startDestination = /*Graph.AUTHENTICATION*/initialRoute
     ) {
+        authNavGraph(rootNavController = rootNavController, mainViewModel)
         composable(route = Graph.HOME) {
             Dashboard(rootNavController, mainViewModel = mainViewModel)
         }
-        authNavGraph(rootNavController = rootNavController, mainViewModel)
-        profileNavGraph(rootNavController, mainViewModel)
+        composable(route = Graph.PROFILE) {
+            ProfileNavHost(rootNavController, mainViewModel)
+        }
     }
 }
 
