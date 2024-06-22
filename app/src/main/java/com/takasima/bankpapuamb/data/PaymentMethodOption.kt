@@ -7,3 +7,7 @@ import androidx.compose.runtime.setValue
 class PaymentMethodOption(val option: String, val logo: Int, var initialSelectedValue: Boolean) {
     var selected by mutableStateOf(initialSelectedValue)
 }
+
+class ListrikMethodOption(val option: String, val logo: Int, var initialSelectedValue: Boolean) {
+    var selected by mutableStateOf(initialSelectedValue)
+}

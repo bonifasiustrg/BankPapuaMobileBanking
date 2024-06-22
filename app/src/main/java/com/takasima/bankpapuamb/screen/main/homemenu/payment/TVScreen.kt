@@ -47,7 +47,7 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 
 
 @Composable
-fun InternetScreen(
+fun TVScreen(
     modifier: Modifier = Modifier,
     paymentNavController: NavHostController
 ) {
@@ -85,7 +85,7 @@ fun InternetScreen(
                             )
                         }
                         Text(
-                            text = "INTERNET",
+                            text = "TELEVISI",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
@@ -103,7 +103,7 @@ fun InternetScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    InternetScreenSection1(paymentNavController)
+                    TVScreenSection1(paymentNavController)
                 }
             }
         }
@@ -111,7 +111,7 @@ fun InternetScreen(
 }
 
 @Composable
-fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, modifier: Modifier = Modifier) {
+fun ColumnScope.TVScreenSection1(paymentNavController: NavHostController, modifier: Modifier = Modifier) {
     val noRek = remember { mutableStateOf("") }
 
     Text(
@@ -161,8 +161,8 @@ fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, 
 
 @Preview(showBackground = true)
 @Composable
-private fun InternetScreenPrev() {
-    InternetScreen(
+private fun TVScreenPrev() {
+    TVScreen(
         paymentNavController = rememberNavController()
     )
 }

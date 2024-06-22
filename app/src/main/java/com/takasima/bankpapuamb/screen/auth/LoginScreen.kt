@@ -56,7 +56,11 @@ import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.secondary
 
 @Composable
-fun LoginScreen(viewModel: MainViewModel, navController: NavHostController, modifier: Modifier = Modifier) {
+fun LoginScreen(
+    viewModel: MainViewModel,
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     val emailState = remember { mutableStateOf("") }
     val passwordState = remember { mutableStateOf("") }
 
@@ -67,7 +71,7 @@ fun LoginScreen(viewModel: MainViewModel, navController: NavHostController, modi
                 .background(Color.White)
         ) {
 //            CustomBackground()
-             /*WALPAPER*/
+            /*WALPAPER*/
             Box(
                 modifier = Modifier
                     .size(60.dp)
@@ -196,7 +200,7 @@ fun LoginScreen(viewModel: MainViewModel, navController: NavHostController, modi
                         .align(Alignment.CenterHorizontally),
                     alignment = Alignment.Center,
                     contentScale = ContentScale.FillWidth,
-                    painter = painterResource(id = R.drawable.bank_papua),
+                    painter = painterResource(id = R.drawable.bank_papur_logo2),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.fillMaxSize(0.38f))
@@ -233,33 +237,52 @@ fun LoginScreen(viewModel: MainViewModel, navController: NavHostController, modi
 //                    viewModel.login()
 //                    navController.popBackStack()
 //                    navController.navigate(Graph.HOME)
-                    navController.navigate(Graph.HOME) {
-                        popUpTo(AuthRouteScreens.Login.route) {
-                            inclusive = true
+                        navController.navigate(Graph.HOME) {
+                            popUpTo(AuthRouteScreens.Login.route) {
+                                inclusive = true
+                            }
                         }
-                    }
-                }, colors = ButtonDefaults.buttonColors(containerColor = secondary)) {
+                    }, colors = ButtonDefaults.buttonColors(containerColor = secondary)
+                ) {
                     Text(text = "LOGIN", fontWeight = FontWeight.Bold)
                 }
 
-                TextButton(modifier = Modifier.align(Alignment.CenterHorizontally),onClick = { /*TODO*/ }) {
+                TextButton(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onClick = {
+                        navController.navigate(AuthRouteScreens.SignUp.route)
+                    }) {
                     Text(text = "REGISTER", color = Color.White, textAlign = TextAlign.Center)
-                    
+
                 }
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         IconButton(onClick = { /*TODO*/ }) {
-                            Icon(modifier = Modifier.size(48.dp), painter = painterResource(id = R.drawable.atm), contentDescription = null)
+                            Icon(
+                                modifier = Modifier.size(48.dp),
+                                painter = painterResource(id = R.drawable.atm),
+                                contentDescription = null
+                            )
                         }
                         Text(text = "ATM")
                     }
 
                     Spacer(modifier = Modifier.width(24.dp))
 
-                    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         IconButton(onClick = { /*TODO*/ }) {
-                            Icon(modifier = Modifier.size(48.dp), imageVector = Icons.Default.SupportAgent, contentDescription = null)
+                            Icon(
+                                modifier = Modifier.size(48.dp),
+                                imageVector = Icons.Default.SupportAgent,
+                                contentDescription = null
+                            )
                         }
                         Text(text = "Call Center")
                     }

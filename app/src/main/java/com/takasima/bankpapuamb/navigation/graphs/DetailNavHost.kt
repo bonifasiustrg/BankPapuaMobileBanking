@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.model.Invoice
+import com.takasima.bankpapuamb.data.viewmodel.Payment2ViewModel
 import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
@@ -28,9 +30,11 @@ import com.takasima.bankpapuamb.screen.main.homemenu.TarikTunaiScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.game.GameScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.AirScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.InternetScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.payment.ListrikScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.PaymentMainSection
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.PendidikanScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.PulsaScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.payment.TVScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.samsat.ESamsatScreen
 
 @RequiresApi(Build.VERSION_CODES.S)
@@ -117,8 +121,8 @@ fun HomeNavHost(
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-fun PaymentNavHost(homeNavController: NavHostController) {
-
+fun PaymentNavHost(homeNavController: NavHostController, paymentViewModel: Payment2ViewModel = viewModel()) {
+    
     val paymentNavController = rememberNavController()
     NavHost(
         navController = paymentNavController,
@@ -136,7 +140,11 @@ fun PaymentNavHost(homeNavController: NavHostController) {
         }
         composable(route = PaymentMenuScreens.InternetScreen.route) {
             InternetScreen(
-                homeNavController = homeNavController,
+                paymentNavController = paymentNavController
+            )
+        }
+        composable(route = PaymentMenuScreens.TVScreen.route) {
+            TVScreen(
                 paymentNavController = paymentNavController
             )
         }
@@ -149,9 +157,7 @@ fun PaymentNavHost(homeNavController: NavHostController) {
             GameScreen(paymentNavController = paymentNavController)
         }
         composable(route = PaymentMenuScreens.ListrikScreen.route) {
-            ScreenContent(name = PaymentMenuScreens.ListrikScreen.route) {
-
-            }
+            ListrikScreen(paymentNavController = paymentNavController, paymentViewModel = paymentViewModel)
         }
         composable(route = PaymentMenuScreens.PulsaScreen.route) {
             PulsaScreen(paymentNavController = paymentNavController)

@@ -207,7 +207,8 @@ fun CustomTextField1(
             )
         },
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color.White
+            unfocusedContainerColor = Color.White,
+            focusedContainerColor = Color.White
         ),
         singleLine = true,
         modifier = modifier
@@ -218,7 +219,8 @@ fun CustomTextField1(
                 keyboardController?.hide()
                 // do something here
             }
-        )
+        ),
+
 
     )
 }

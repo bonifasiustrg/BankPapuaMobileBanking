@@ -9,6 +9,10 @@ import com.takasima.bankpapuamb.navigation.AuthRouteScreens
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.screen.auth.LoginScreen
 import com.takasima.bankpapuamb.screen.auth.RegisterScreen
+import com.takasima.bankpapuamb.screen.auth.RegisterScreenSection1
+import com.takasima.bankpapuamb.screen.auth.RegisterScreenSection2
+import com.takasima.bankpapuamb.screen.auth.RegisterScreenSection3
+import com.takasima.bankpapuamb.screen.auth.RegisterScreenSection4
 
 fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController, viewModel: MainViewModel) {
     navigation(
@@ -33,8 +37,27 @@ fun NavGraphBuilder.authNavGraph(rootNavController: NavHostController, viewModel
 
         composable(route = AuthRouteScreens.SignUp.route){
 //            ScreenContent(name = AuthScreen.SignUp.route) {}
-            RegisterScreen()
+            RegisterScreen(viewModel, rootNavController)
         }
+        composable(route = "registersect1"){
+//            ScreenContent(name = AuthScreen.SignUp.route) {}
+            RegisterScreenSection1(rootNavController)
+        }
+        composable(route = "registersect2"){
+//            ScreenContent(name = AuthScreen.SignUp.route) {}
+            RegisterScreenSection2(rootNavController)
+        }
+        composable(route = "registersect3"){
+//            ScreenContent(name = AuthScreen.SignUp.route) {}
+            RegisterScreenSection3(rootNavController)
+        }
+        composable(route = "registersect4"){
+//            ScreenContent(name = AuthScreen.SignUp.route) {}
+            RegisterScreenSection4(rootNavController)
+        }
+
+
+
 //        composable(route = AuthScreen.Forgot.route){
 //            ScreenContent(name = AuthScreen.Forgot.route) {}
 //        }

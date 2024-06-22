@@ -14,10 +14,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.outlined.ContactMail
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,20 +39,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.takasima.bankpapuamb.data.ListrikMethodOption
+import com.takasima.bankpapuamb.data.viewmodel.Payment2ViewModel
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
+import com.takasima.bankpapuamb.screen.common.SingleSelectionCard
+import com.takasima.bankpapuamb.screen.common.SingleSelectionCard2
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
 
 @Composable
-fun InternetScreen(
-    modifier: Modifier = Modifier,
-    paymentNavController: NavHostController
+fun ListrikScreen(
+    paymentNavController: NavHostController,
+    paymentViewModel: Payment2ViewModel,
+    modifier: Modifier = Modifier
 ) {
+    val options = paymentViewModel.options
 
 
     Box(
@@ -85,7 +94,7 @@ fun InternetScreen(
                             )
                         }
                         Text(
-                            text = "INTERNET",
+                            text = "PEMBAYARAN LISTRIK",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
@@ -103,7 +112,7 @@ fun InternetScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    InternetScreenSection1(paymentNavController)
+                    ListrikScreenSection1(paymentNavController, options, paymentViewModel)
                 }
             }
         }
@@ -111,11 +120,16 @@ fun InternetScreen(
 }
 
 @Composable
-fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, modifier: Modifier = Modifier) {
+fun ColumnScope.ListrikScreenSection1(
+    paymentNavController: NavHostController,
+    options: List<ListrikMethodOption>,
+    paymentViewModel: Payment2ViewModel,
+    modifier: Modifier = Modifier
+) {
     val noRek = remember { mutableStateOf("") }
 
     Text(
-        text = "BAYAR INTERNET",
+        text = "PRODUK LISTRIK",
         color = terniary,
         fontWeight = FontWeight.ExtraBold,
         modifier = Modifier.fillMaxWidth(),
@@ -125,7 +139,13 @@ fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, 
 
     Spacer(modifier = Modifier.height(32.dp))
 
+    SingleSelectionList2(
+        options,
+        onOptionClicked = { paymentViewModel.selectionOptionSelected(it) }
+    )
 
+
+    Spacer(modifier = Modifier.height(16.dp))
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = noRek.value,
@@ -139,6 +159,10 @@ fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, 
                     .size(48.dp)
             )
         },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color.White,
+            focusedContainerColor = Color.White
+        ),
         shape = RoundedCornerShape(16.dp),
         placeholder = { Text(text = "NOMOR PELANGGAN ") }
     )
@@ -158,11 +182,21 @@ fun ColumnScope.InternetScreenSection1(paymentNavController: NavHostController, 
 
 }
 
+@Composable
+fun SingleSelectionList2(
+    options: List<ListrikMethodOption>,
+    onOptionClicked: (ListrikMethodOption) -> Unit
+) {
+
+    LazyColumn {
+        items(options) { option -> SingleSelectionCard2(option, onOptionClicked) }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-private fun InternetScreenPrev() {
-    InternetScreen(
-        paymentNavController = rememberNavController()
+private fun ListrikScreenPrev() {
+    ListrikScreen(
+        rememberNavController(), viewModel()
     )
 }

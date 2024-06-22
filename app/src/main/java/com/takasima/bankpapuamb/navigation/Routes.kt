@@ -63,6 +63,7 @@ sealed class PaymentMenuScreens(var route: String) {
 
     object  AirScreen : PaymentMenuScreens("air")
     object  InternetScreen : PaymentMenuScreens("internet")
+    object  TVScreen : PaymentMenuScreens("tv")
     object  Pendidikan : PaymentMenuScreens("pendidikan")
     object  GameScreen : PaymentMenuScreens("game")
     object  PulsaScreen : PaymentMenuScreens("pulsa")

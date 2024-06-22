@@ -2,13 +2,8 @@ package com.takasima.bankpapuamb.data.viewmodel
 
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.data.PaymentMethodOption
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 class DompetkuViewModel : ViewModel() {
     private val _options = listOf(

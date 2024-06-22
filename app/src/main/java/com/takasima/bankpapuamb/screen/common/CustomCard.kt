@@ -22,10 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.data.ListrikMethodOption
 import com.takasima.bankpapuamb.data.PaymentMethodOption
 
 @Composable
@@ -52,7 +54,30 @@ fun SingleSelectionCard(selectionOption: PaymentMethodOption, onOptionClicked: (
         }
     }
 }
-
+@Composable
+fun SingleSelectionCard2(selectionOption: ListrikMethodOption, onOptionClicked: (ListrikMethodOption) -> Unit) {
+    Surface(modifier = Modifier
+        .fillMaxSize()
+        .padding(vertical = 4.dp), shape = RoundedCornerShape(16.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+//                .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(16.dp))
+                .clickable(true, onClick = { onOptionClicked(selectionOption) }),
+            color = if (selectionOption.selected) { MaterialTheme.colorScheme.primary } else { Color.White},
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                Image(painter = painterResource(id = selectionOption.logo), contentDescription = null, modifier = Modifier.height(24.dp).width(50.dp))
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = selectionOption.option,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+}
 @Preview
 @Composable
 private fun SingleSelectionCardPrev() {

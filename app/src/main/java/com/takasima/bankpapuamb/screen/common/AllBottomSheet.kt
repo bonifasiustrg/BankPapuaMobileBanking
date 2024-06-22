@@ -285,7 +285,7 @@ fun BottomSheetJenisBpjs(
                 .align(Alignment.CenterHorizontally),
             onClick = {
                 openBSJenisBpjs.value = false
-//                pulsaNavController  .navigate("invoice")
+                bpjsNavController.navigate("invoice")
             },
             colors = ButtonDefaults.buttonColors(containerColor = secondary)
         ) {
@@ -306,7 +306,7 @@ private fun BottomSheetBpjsPrev() {
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun BottomSheetContentPembayaran(
-    homeNavController: NavHostController,
+    paymentNavController: NavHostController,
     onHideButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -324,7 +324,9 @@ fun BottomSheetContentPembayaran(
         ) {
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier
+                IconButton(onClick = {
+                    paymentNavController.navigate(PaymentMenuScreens.InternetScreen.route)
+                }, modifier = Modifier
                     .width(90.dp)
                     .background(Color(0xFF3D9EF8), shape = RoundedCornerShape(8.dp))
                     .padding(vertical = 8.dp)) {
@@ -335,7 +337,9 @@ fun BottomSheetContentPembayaran(
 
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier
+                IconButton(onClick = {
+                    paymentNavController.navigate(PaymentMenuScreens.TVScreen.route)
+                }, modifier = Modifier
                     .width(90.dp)
                     .background(Color(0xFF3D9EF8), shape = RoundedCornerShape(8.dp))
                     .padding(vertical = 8.dp)) {
@@ -376,7 +380,8 @@ fun BottomSheetContentSamsat(
     Column(
         modifier
             .padding(horizontal = 16.dp, vertical = 24.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(color = Color.White),
 //        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {

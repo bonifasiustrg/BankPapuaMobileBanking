@@ -243,7 +243,7 @@ fun PaymentMainSection(
                                 }) {
 
                                 Image(
-                                    painter = painterResource(id = R.drawable.listrik),
+                                    painter = painterResource(id = R.drawable.listrik_ic),
                                     contentDescription = null,
                                     modifier = Modifier.size(48.dp)
 
@@ -318,7 +318,7 @@ fun PaymentMainSection(
                         }
                     ) {
                         BottomSheetContentPembayaran(
-                            homeNavController = homeNavController,
+                            paymentNavController = paymentNavController,
                             onHideButtonClick = {
                                 scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
                                     if (!bottomSheetState.isVisible) openBottomSheet.value = false

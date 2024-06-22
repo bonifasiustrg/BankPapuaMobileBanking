@@ -127,7 +127,7 @@ fun BPJSScreen(homeNavController: NavHostController, modifier: Modifier = Modifi
                             paddingValues = paddingValues,
                             homeNavController = homeNavController,
                             samsatNavController = bpjsNavController,
-                            openBottomSheet = openBSJenisBpjs
+                            openBottomSheet = openBottomSheet
                         )
                     }
                     composable("invoice") {
@@ -186,6 +186,7 @@ fun BPJSScreen(homeNavController: NavHostController, modifier: Modifier = Modifi
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+//                                    .background(color = Color.White)
                             ) {
                                 BottomSheetDefaults.DragHandle()
                                 Text(
@@ -197,6 +198,7 @@ fun BPJSScreen(homeNavController: NavHostController, modifier: Modifier = Modifi
                                 Divider()
                             }
                         },
+                        modifier = Modifier.background(Color.White)
                     ) {
                         BottomSheetContentSamsat(
                             onHideButtonClick = {

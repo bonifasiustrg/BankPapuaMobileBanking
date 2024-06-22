@@ -1,4 +1,4 @@
-package com.takasima.bankpapuamb.screen.auth
+package com.takasima.bankpapuamb.screen.auth.settingaccount
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

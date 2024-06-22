@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
-import com.takasima.bankpapuamb.screen.auth.ProfileScreen
+import com.takasima.bankpapuamb.screen.auth.settingaccount.ProfileScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.SettingScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.UbahNoHPScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.UbahPINScreen

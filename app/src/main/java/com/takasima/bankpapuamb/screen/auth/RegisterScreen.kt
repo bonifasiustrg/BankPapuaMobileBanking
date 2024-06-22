@@ -2,7 +2,6 @@ package com.takasima.bankpapuamb.screen.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,41 +17,32 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.Contacts
 import androidx.compose.material.icons.outlined.CreditCard
-import androidx.compose.material.icons.outlined.PermContactCalendar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,18 +50,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.AuthRouteScreens
-import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
-import com.takasima.bankpapuamb.ui.theme.terniary2
 
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier) {
+fun RegisterScreen(viewmodel: MainViewModel, rootNavController: NavHostController) {
     Scaffold(
         topBar = {
             Row(
@@ -79,6 +71,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.10f)
                     .background(color = Color(0xFFAAE4F6))
+                    .padding(top = 16.dp)
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -93,7 +86,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    fontSize = 32.sp
+                    fontSize = 24.sp
                 )
             }
         }
@@ -165,14 +158,14 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                 )
             }
 
-            RegisterScreenSection1()
+            RegisterScreenSection1(rootNavController)
         }
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun RegisterScreenSection1(modifier: Modifier = Modifier) {
+fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modifier = Modifier) {
     val noKartu = remember { mutableStateOf("") }
     val tglLahir = remember { mutableStateOf("") }
     val noTelp = remember { mutableStateOf("") }
@@ -321,7 +314,9 @@ fun RegisterScreenSection1(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(90.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                rootNavController.navigate("registersect2")
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = secondary
             ),
@@ -341,18 +336,18 @@ fun RegisterScreenSection1(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPrev() {
-    RegisterScreen()
+    RegisterScreen(viewModel(), rememberNavController())
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPrev1() {
-    RegisterScreenSection1()
+    RegisterScreenSection1(rememberNavController())
 }
 
 
 @Composable
-fun RegisterScreenSection2(modifier: Modifier = Modifier) {
+fun RegisterScreenSection2(rootNavController: NavHostController, modifier: Modifier = Modifier) {
 
     /*CONTENT*/
     Column(
@@ -383,6 +378,7 @@ fun RegisterScreenSection2(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(90.dp))
         Button(
             onClick = {
+                rootNavController.navigate("registersect3")
 //                navController.navigate(Graph.HOME) {
 //                    popUpTo(AuthRouteScreens.SignUp.route) {
 //                        inclusive = true
@@ -410,12 +406,12 @@ fun RegisterScreenSection2(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPrev2() {
-    RegisterScreenSection2()
+    RegisterScreenSection2(rememberNavController())
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun RegisterScreenSection3(modifier: Modifier = Modifier) {
+fun RegisterScreenSection3(rootNavController: NavHostController, modifier: Modifier = Modifier) {
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val pswdConfirm = remember { mutableStateOf("") }
@@ -564,7 +560,9 @@ fun RegisterScreenSection3(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(90.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                rootNavController.navigate("registersect4")
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = secondary
             ),
@@ -584,12 +582,12 @@ fun RegisterScreenSection3(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPrev3() {
-    RegisterScreenSection3()
+    RegisterScreenSection3(rememberNavController())
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun RegisterScreenSection4(modifier: Modifier = Modifier) {
+fun RegisterScreenSection4(rootNavController: NavHostController, modifier: Modifier = Modifier) {
     val username = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val pswdConfirm = remember { mutableStateOf("") }
@@ -623,7 +621,10 @@ fun RegisterScreenSection4(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(32.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                rootNavController.popBackStack()
+                rootNavController.navigate(AuthRouteScreens.Login.route)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = secondary
             ),
@@ -643,5 +644,5 @@ fun RegisterScreenSection4(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun RegisterScreenPrev4() {
-    RegisterScreenSection4()
+    RegisterScreenSection4(rememberNavController())
 }

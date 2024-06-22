@@ -147,6 +147,7 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                                    .background(color = Color.White)
                             ) {
                                 BottomSheetDefaults.DragHandle()
                                 Text(
