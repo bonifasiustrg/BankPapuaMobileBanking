@@ -124,6 +124,7 @@ val lokasiList = listOf(
     "Kota Cirebon",
     "Kota Depok",
     "Kota Sukabumi",
+    "Kota Sukabumi",
     "Kota Tasikmalaya"
 )
 
