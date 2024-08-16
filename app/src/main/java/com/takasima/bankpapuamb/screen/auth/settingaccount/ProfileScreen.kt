@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -67,6 +69,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
                             .fillMaxWidth()
                             .fillMaxHeight(0.08f)
                             .background(color = Color(0xB3AAE4F6))
+                            .padding(top = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -100,6 +103,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
+                    Spacer(modifier = Modifier.height(32.dp))
 
 
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -157,7 +161,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
 
                     ) {
                         Text(
-                            text = "Setting Rekening",
+                            text = "Setting Kredit",
                             fontSize = 20.sp,
                             color = biru2,
                             fontWeight = FontWeight.Bold,
@@ -178,7 +182,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
                     )
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.Kurs.route)
+                            profileNavController.navigate(ProfileRouteScreens.Kurs.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -198,7 +202,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
 
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.Lokasi.route)
+                            profileNavController.navigate(ProfileRouteScreens.Lokasi.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -248,7 +252,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
 
                     TextButton(
                         onClick = {
-                            rootNavController.navigate(ProfileRouteScreens.Help.route)
+                            profileNavController.navigate(ProfileRouteScreens.Help.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()

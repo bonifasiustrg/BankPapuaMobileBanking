@@ -168,21 +168,23 @@ fun PaymentMainSection(
                         fontSize = 18.sp,
                         color = Color.Black
                     )
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
+                        var isSaldoHidden by rememberSaveable { mutableStateOf(true) }
+
                         Text(
-                            text = "Rp.************",
+                            text = if (isSaldoHidden) "Rp****" else "Rp1.000.000",
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color.Black
                         )
 
-                        var passwordHidden by rememberSaveable { mutableStateOf(true) }
-                        IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                        IconButton(onClick = { isSaldoHidden = !isSaldoHidden }) {
                             val visibilityIcon =
-                                if (passwordHidden) Visibility else VisibilityOff
+                                if (isSaldoHidden) Visibility else VisibilityOff
                             // Please provide localized description for accessibility services
                             val description =
-                                if (passwordHidden) "Show password" else "Hide password"
+                                if (isSaldoHidden) "Show saldo" else "Hide saldo"
                             Icon(imageVector = visibilityIcon, contentDescription = description)
                         }
                     }

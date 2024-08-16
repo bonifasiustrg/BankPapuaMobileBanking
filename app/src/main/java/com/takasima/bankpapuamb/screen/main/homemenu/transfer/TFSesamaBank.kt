@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material3.Button
@@ -35,6 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -133,7 +137,12 @@ fun ColumnScope.TFSesamaScreenSection1(homeNavController: NavHostController, mod
             )
         },
         shape = RoundedCornerShape(16.dp),
-        placeholder = { Text(text = "Masukkan Nomor Rekening ") })
+        placeholder = { Text(text = "Masukkan Nomor Rekening ") },
+        visualTransformation = VisualTransformation.None,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next)
+    )
 
 
     Spacer(modifier = Modifier.height(24.dp))
@@ -152,7 +161,12 @@ fun ColumnScope.TFSesamaScreenSection1(homeNavController: NavHostController, mod
             )
         },
         shape = RoundedCornerShape(16.dp),
-        placeholder = { Text(text = "Masukkan Nominal ") })
+        placeholder = { Text(text = "Masukkan Nominal ") },
+        visualTransformation = VisualTransformation.None,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next)
+    )
 
 
     Spacer(modifier = Modifier.height(24.dp))
@@ -190,7 +204,7 @@ fun ColumnScope.TFSesamaScreenSection1(homeNavController: NavHostController, mod
             homeNavController.navigate("invoice")
 
         },
-        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+        colors = ButtonDefaults.buttonColors(containerColor = secondary, contentColor = Color.White),
     ) {
         Text(text = "Konfirmasi")
     }

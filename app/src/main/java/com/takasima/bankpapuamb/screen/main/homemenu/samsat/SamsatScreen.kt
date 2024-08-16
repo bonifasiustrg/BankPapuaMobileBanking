@@ -31,6 +31,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -98,11 +99,13 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                            contentDescription = null,
-                            Modifier.size(32.dp)
-                        )
+                        IconButton(onClick = { homeNavController.navigateUp() }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                contentDescription = null,
+                                Modifier.size(32.dp)
+                            )
+                        }
                         Text(
                             text = "E-Samsat Papua",
                             color = terniary,
@@ -142,20 +145,21 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
                 if (openBottomSheet.value) {
                     ModalBottomSheet(
                         sheetState = bottomSheetState,
+                        containerColor = Color.White,
                         onDismissRequest = { openBottomSheet.value = false },
                         dragHandle = {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                                modifier = Modifier
+                                    .padding(top = 16.dp, bottom = 8.dp)
                                     .background(color = Color.White)
                             ) {
                                 BottomSheetDefaults.DragHandle()
                                 Text(
-                                    text = "TRANSFER",
+                                    text = "Pembayaran",
                                     fontWeight = FontWeight.ExtraBold,
                                     fontSize = 32.sp
                                 )
-                                Spacer(modifier = modifier.height(10.dp))
                                 Divider()
                             }
                         },

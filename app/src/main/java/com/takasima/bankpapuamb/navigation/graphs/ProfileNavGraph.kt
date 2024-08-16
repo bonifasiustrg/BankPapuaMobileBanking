@@ -1,5 +1,7 @@
 package com.takasima.bankpapuamb.navigation.graphs
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,13 +10,16 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
+import com.takasima.bankpapuamb.screen.auth.settingaccount.KursScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.ProfileScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.SettingScreen
+import com.takasima.bankpapuamb.screen.auth.settingaccount.SnKScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.UbahNoHPScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.UbahPINScreen
 import com.takasima.bankpapuamb.screen.auth.settingaccount.UbahPasswordScreen
 import com.takasima.bankpapuamb.screen.common.ScreenContent
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun /*NavGraphBuilder.p*/ProfileNavHost(rootNavController: NavHostController, viewModel: MainViewModel) {
     val profileNavController = rememberNavController()
@@ -63,13 +68,13 @@ fun /*NavGraphBuilder.p*/ProfileNavHost(rootNavController: NavHostController, vi
             ScreenContent(name = ProfileRouteScreens.SettingRekening.route) {}
         }
         composable(route = ProfileRouteScreens.Kurs.route){
-            ScreenContent(name = ProfileRouteScreens.Kurs.route) {}
+            KursScreen(profileNavController = profileNavController)
         }
         composable(route = ProfileRouteScreens.Lokasi.route){
             ScreenContent(name = ProfileRouteScreens.Lokasi.route) {}
         }
         composable(route = ProfileRouteScreens.SnK.route){
-            ScreenContent(name = ProfileRouteScreens.SnK.route) {}
+            SnKScreen(profileNavController)
         }
         composable(route = ProfileRouteScreens.Help.route){
             ScreenContent(name = ProfileRouteScreens.Help.route) {}

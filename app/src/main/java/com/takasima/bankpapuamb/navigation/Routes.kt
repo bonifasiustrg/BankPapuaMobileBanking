@@ -57,6 +57,10 @@ sealed class FeatureRouteScreens(var route: String) {
     object  BPJSScreen : FeatureRouteScreens("bpjs")
     object  ESamsatScreen : FeatureRouteScreens("esamsat")
     object  PACE : FeatureRouteScreens("pace")
+    object  KUR : FeatureRouteScreens("kur")
+    object  BukuKeuangan : FeatureRouteScreens("buku_keuangan")
+
+
     object  Security : FeatureRouteScreens("security")
 }
 sealed class PaymentMenuScreens(var route: String) {

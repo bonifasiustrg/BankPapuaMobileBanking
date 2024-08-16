@@ -49,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.utils.daftarUnivIndo
+import com.takasima.bankpapuamb.utils.jenisBpjs
 import com.takasima.bankpapuamb.utils.lokasiList
 import com.takasima.bankpapuamb.utils.providers
 import com.takasima.bankpapuamb.utils.provinces
@@ -84,7 +85,7 @@ fun ExposedDropdownMenu(
                 readOnly = true,
                 trailingIcon = {
 
-                    if (condition != "provider" ) {
+                    if (condition != "provider") {
                         IconButton(
                             onClick = { /*TODO*/ },
                             modifier = Modifier.border(
@@ -146,7 +147,7 @@ fun ExposedDropdownMenu(
                     )
                 },
 
-            )
+                )
 
 
 
@@ -157,7 +158,7 @@ fun ExposedDropdownMenu(
                     .fillMaxWidth()
                     .background(Color.White)
             ) {
-                if (condition == "lokasi" || condition == "universitas"){
+                if (condition == "lokasi" || condition == "universitas") {
                     var text by remember { mutableStateOf("") }
                     var active by remember { mutableStateOf(false) }
                     SearchBar(
@@ -207,7 +208,7 @@ fun ExposedDropdownMenu(
                     Divider(Modifier.fillMaxWidth())
                 }
 
-                if (condition== "provider") {
+                if (condition == "provider") {
                     providers.forEach { item ->
                         DropdownMenuItem(
                             leadingIcon = {
@@ -227,24 +228,49 @@ fun ExposedDropdownMenu(
                         )
                     }
 
+                } else if (condition == "jenisBpjs") {
+                    jenisBpjs.forEach { item ->
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Image(
+                                    painter = painterResource(id = R.drawable.bpjs),
+                                    contentDescription = null,
+                                    modifier = Modifier.width(50.dp)
+                                )
+                            },
+                            text = { Text(text = item, color = Color.Black) },
+                            onClick = {
+                                selectedText = item
+                                expanded = false
+//                                 Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
                 } else {
                     when (condition) {
                         "province" -> provinces
                         "lokasi" -> lokasiList
                         "universitas" -> daftarUnivIndo
+//                        "jenisBpjs" -> jenisBpjs
                         else -> provinces
                     }.forEach { item ->
                         DropdownMenuItem(
                             leadingIcon = {
-                                if (condition=="lokasi") {
-                                    Icon(painter = painterResource(id = R.drawable.city_ic), contentDescription = null, modifier = Modifier.size(48.dp))
-                                } else if (condition=="universitas") {
+                                if (condition == "lokasi") {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.city_ic),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(48.dp)
+                                    )
+                                } else if (condition == "universitas") {
                                     Icon(
                                         imageVector = Icons.Outlined.School,
                                         contentDescription = null,
                                         modifier = Modifier.size(48.dp)
                                     )
-                                } else if (condition=="provider") {
+                                } else if (condition == "provider") {
                                     Icon(
                                         imageVector = Icons.Outlined.SignalCellularAlt,
                                         contentDescription = null,

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.AccountBalance
@@ -39,19 +40,25 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,16 +66,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.screen.common.BottomSheetBank
+import com.takasima.bankpapuamb.screen.common.BottomSheetContentPembayaran
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 import com.takasima.bankpapuamb.ui.theme.secondary
+import com.takasima.bankpapuamb.utils.banks
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TFAntarBankScreen(homeNavController: NavHostController, modifier: Modifier = Modifier) {
     var openBottomSheet = remember { mutableStateOf(false) }
-    val scope = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(/*skipPartiallyExpanded = true*/)
 
 
@@ -123,7 +134,7 @@ fun TFAntarBankScreen(homeNavController: NavHostController, modifier: Modifier =
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
-                    TFAntarBankSection1(homeNavController = homeNavController)
+                    TFAntarBankSection1(homeNavController = homeNavController, openBottomSheet = openBottomSheet)
 //                    PilihBankSection()
                 }
 
@@ -138,18 +149,34 @@ fun TFAntarBankScreen(homeNavController: NavHostController, modifier: Modifier =
                             ) {
                                 BottomSheetDefaults.DragHandle()
                                 Text(
-                                    text = "Pembayaran",
+                                    text = "Pilih Bank",
                                     fontWeight = FontWeight.ExtraBold,
-                                    fontSize = 32.sp
+                                    color = Color.Gray,
+                                    fontSize = 24.sp
                                 )
                                 Spacer(modifier = modifier.height(10.dp))
                                 Divider()
                             }
                         },
                     ) {
-                        PilihBankSection()
+                        PilihBankSection(onHideButtonClick = {
+                            scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+                                if (!bottomSheetState.isVisible) openBottomSheet.value = false
+                            }
+                        })
+//                        BottomSheetBank(
+//                            homeNavController = homeNavController,
+//                            onHideButtonClick = {
+//                                scope.launch { bottomSheetState.hide() }.invokeOnCompletion {
+//                                    if (!bottomSheetState.isVisible) openBottomSheet.value = false
+//                                }
+//                            },
+//                            modifier = modifier
+//                        )
                     }
                 }
+
+
             }
 
 
@@ -164,13 +191,16 @@ private fun TFAntarBankScreenPrev() {
 }
 
 @Composable
-fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifier: Modifier = Modifier) {
+fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, openBottomSheet: MutableState<Boolean>, modifier: Modifier = Modifier) {
     val noRek = remember { mutableStateOf("") }
-    val nominal = remember { mutableIntStateOf(0) }
+    val nominal = remember { mutableStateOf("0") }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(16.dp))
+            .clickable {
+                openBottomSheet.value = true
+            }
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -185,7 +215,7 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
             style = MaterialTheme.typography.titleMedium,
             modifier = modifier.weight(1f)
         )
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { openBottomSheet.value = true }) {
             Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
         }
     }
@@ -195,6 +225,10 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = noRek.value,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White
+        ),
         onValueChange = { noRek.value = it },
         leadingIcon = {
             Icon(
@@ -206,15 +240,24 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
             )
         },
         shape = RoundedCornerShape(16.dp),
-        placeholder = { Text(text = "Masukkan Nomor Rekening ") })
+        placeholder = { Text(text = "Masukkan Nomor Rekening ") },
+        visualTransformation = VisualTransformation.None,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next)
+    )
 
 
     Spacer(modifier = Modifier.height(24.dp))
 
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = noRek.value,
-        onValueChange = { noRek.value = it },
+        value = nominal.value,
+        onValueChange = { nominal.value = it },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White
+        ),
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.nominal_ic),
@@ -225,7 +268,12 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
             )
         },
         shape = RoundedCornerShape(16.dp),
-        placeholder = { Text(text = "Masukkan Nominal ") })
+        placeholder = { Text(text = "Masukkan Nominal ") },
+        visualTransformation = VisualTransformation.None,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next)
+    )
 
 
     Spacer(modifier = Modifier.height(24.dp))
@@ -261,7 +309,7 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
             homeNavController.navigate("invoice")
 
         },
-        colors = ButtonDefaults.buttonColors(containerColor = secondary)
+        colors = ButtonDefaults.buttonColors(containerColor = secondary, contentColor = Color.White)
     ) {
         Text(text = "Konfirmasi")
     }
@@ -272,7 +320,7 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, modifi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ColumnScope.PilihBankSection(modifier: Modifier = Modifier) {
+fun PilihBankSection(onHideButtonClick: () -> Unit, modifier: Modifier = Modifier) {
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     var items = remember {
@@ -281,19 +329,6 @@ fun ColumnScope.PilihBankSection(modifier: Modifier = Modifier) {
             "BCA"
         )
     }
-    var bankList = remember {
-        mutableStateListOf<String>(
-            "BANK RAKYAT INDONESIA",
-            "BANK NEGARA INDONESIA",
-            "BANK MANDIRI",
-            "BANK BPD DAERAH ISTIMEWA YOGYAKARTA",
-            "BANK Tabungan Negara",
-            "BANK BCA",
-            "BANK SYARIAH INDONESIA",
-            "BANK NOBU",
-        )
-    }
-
 
     SearchBar(
         query = text,
@@ -305,7 +340,7 @@ fun ColumnScope.PilihBankSection(modifier: Modifier = Modifier) {
         },
         active = false,
         onActiveChange = { active = it },
-        placeholder = { Text("Cari bank...") },
+        placeholder = { Text("Cari bank tujuan Anda") },
         leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null) },
         trailingIcon = {
             if (active) {
@@ -338,21 +373,33 @@ fun ColumnScope.PilihBankSection(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(Color.White, shape = RoundedCornerShape(16.dp))
             .padding(vertical = 16.dp, horizontal = 8.dp)) {
-        items(bankList) {
+        items(banks) {
             Row(modifier = modifier
                 .fillMaxWidth()
+                .clickable {
+                    onHideButtonClick()
+                }
                 .background(Color(0x61CACACA), shape = RoundedCornerShape(8.dp))
                 .padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    modifier = modifier.padding(end = 10.dp),
-                    imageVector = Icons.Default.AccountBalance,
+                Image(
+                    modifier = modifier
+                        .size(48.dp)
+                        .padding(end = 10.dp),
+//                    imageVector = Icons.Default.AccountBalance,
+                    painter = painterResource(id = it.second),
                     contentDescription = null
                 )
 
-                Text(text = it, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(text = it.first, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 
+}
+
+@Preview
+@Composable
+private fun tes() {
+    PilihBankSection({})
 }

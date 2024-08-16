@@ -23,6 +23,7 @@ import com.takasima.bankpapuamb.screen.main.homemenu.DompetkuScreen
 import com.takasima.bankpapuamb.screen.main.FavoriteScreen
 import com.takasima.bankpapuamb.screen.main.HomeScreen
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen
+import com.takasima.bankpapuamb.screen.main.InvoiceScreen2
 import com.takasima.bankpapuamb.screen.main.PaymentSummaryScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.transfer.TFAntarBankScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.transfer.TFSesamaBankScreen
@@ -84,8 +85,16 @@ fun HomeNavHost(
             composable(route = FeatureRouteScreens.ESamsatScreen.route) {
                 ESamsatScreen(homeNavController = homeNavController)
             }
+
+
             composable(route = FeatureRouteScreens.PACE.route) {
                 ScreenContent(FeatureRouteScreens.PACE.route, {})
+            }
+            composable(route = FeatureRouteScreens.KUR.route) {
+                ScreenContent(FeatureRouteScreens.KUR.route, {})
+            }
+            composable(route = FeatureRouteScreens.BukuKeuangan.route) {
+                ScreenContent(FeatureRouteScreens.BukuKeuangan.route, {})
             }
 
             /*TRANSFER BOTTOM SHEET MENU*/
@@ -115,6 +124,19 @@ fun HomeNavHost(
                     )
                 )
             }
+            composable("invoice2") {
+                InvoiceScreen2(
+                    paddingValues = PaddingValues(),
+                    menuNavController = rememberNavController(),
+                    homeNavController = homeNavController,
+                    invoice = Invoice(
+                        "xxxxxxxxxxxxx", "FREDERIKUS MAHUZE", "DD/MM/YYYY",
+                        rekAsal = " 9102232123", jenisTransaksi = "Dana",
+                        nominal = 500_000
+                    )
+                )
+            }
+
         }
     }
 }

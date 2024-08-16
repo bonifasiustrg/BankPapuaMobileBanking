@@ -12,6 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 
 val secondary = Color(0xFFFDB807)
+val secondaryDisabled = Color(0x70FDB807)
+val whiteTextDisabled = Color(0x52FFFFFF)
 val terniary = Color(0xFFFF8A00)
 val terniary2 = Color(0xFF4CCAF2)
 val biru2 = Color(0xB83D9EF8)

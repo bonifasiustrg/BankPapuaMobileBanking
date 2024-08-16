@@ -53,6 +53,18 @@ val providers = listOf(
 //    "By.U"
 )
 
+val banks = listOf(
+    Pair("BANK RAKYAT INDONESIA", R.drawable.bankbri_ic),
+    Pair("BANK NEGARA INDONESIA", R.drawable.bankbni_ic),
+    Pair("BANK MANDIRI", R.drawable.bankmandiri_ic),
+    Pair("BANK BPD DAERAH ISTIMEWA YOGYAKARTA", R.drawable.bankyogya),
+    Pair("BANK TABUNGAN NEGARA", R.drawable.bankbtn_ig),
+    Pair("BANK BCA", R.drawable.bankbca_ic),
+    Pair("BANK SYARIAH INDONESIA", R.drawable.bankbsi_ic),
+    Pair("BANK BPD NOBU", R.drawable.banknobu_ic),
+)
+
+
 val jenisBpjs = listOf(
     "BPJS Kesehatan",
     "BPJS Ketenagakerjaan",

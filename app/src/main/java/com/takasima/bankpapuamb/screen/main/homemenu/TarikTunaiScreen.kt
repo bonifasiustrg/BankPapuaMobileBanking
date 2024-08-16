@@ -2,6 +2,7 @@ package com.takasima.bankpapuamb.screen.main.homemenu
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,8 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
@@ -28,30 +33,40 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.takasima.bankpapuamb.data.viewmodel.DompetkuViewModel
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.OptTextField
 import com.takasima.bankpapuamb.ui.theme.secondary
+import com.takasima.bankpapuamb.ui.theme.secondaryDisabled
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
+import com.takasima.bankpapuamb.ui.theme.whiteTextDisabled
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -90,7 +105,7 @@ fun TarikTunaiScreen(homeNavController: NavHostController, modifier: Modifier = 
                             )
                         }
                         Text(
-                            text = "Tarik Tunai",
+                            text = "Tarik Tunai  ",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
@@ -102,11 +117,17 @@ fun TarikTunaiScreen(homeNavController: NavHostController, modifier: Modifier = 
             ) {
 
                 NavHost(navController = ttNavController, startDestination = "ttsection1") {
-                    composable("ttsection1"){
-                        TTSection1(homeNavController = homeNavController, ttNavController = ttNavController)
+                    composable("ttsection1") {
+                        TTSection1(
+                            homeNavController = homeNavController,
+                            ttNavController = ttNavController
+                        )
                     }
-                    composable("ttsection2"){
-                        TTSection2(homeNavController = homeNavController, ttNavController = ttNavController)
+                    composable("ttsection2") {
+                        TTSection2(
+                            homeNavController = homeNavController,
+                            ttNavController = ttNavController
+                        )
                     }
 
                 }
@@ -123,135 +144,65 @@ private fun TarikTunaiScreenPrev() {
 }
 
 @Composable
-fun TTSection1(homeNavController: NavHostController,  ttNavController: NavHostController
-                           , modifier: Modifier = Modifier) {
+fun TTSection1(
+    homeNavController: NavHostController,
+    ttNavController: NavHostController,
+    modifier: Modifier = Modifier,
+    dompetkuViewModel: DompetkuViewModel = viewModel()
+) {
     Column(
         Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(16.dp)
             .padding(top = LocalConfiguration.current.screenHeightDp.dp * 0.1f)
-            .verticalScroll(rememberScrollState()),
+            /*.verticalScroll(rememberScrollState())*/,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 //                    TTSection1(homeNavController, modifier)
         val noKartu = remember { mutableStateOf("") }
 
-        TextField(value = noKartu.value, onValueChange = { noKartu.value = it }, leadingIcon = {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = noKartu.value,
+            onValueChange = { noKartu.value = it },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White
+            ),
+            leadingIcon = {
             Icon(
                 imageVector = Icons.Default.DateRange,
                 contentDescription = null
             )
-        }, shape = RoundedCornerShape(16.dp), label = { Text(text = "Masukkan Nomor Kartu") })
+        }, shape = RoundedCornerShape(16.dp),
+            label = { Text(text = "Masukkan Nomor Kartu") },
+            visualTransformation = VisualTransformation.None,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next)
+        )
 
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp, bottom = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "100.000")
-            }
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "200.000")
-            }
+        val options = dompetkuViewModel.optionsNominal
+        var optionClicked by remember {
+            mutableStateOf(false)
         }
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "300.000")
+        SingleSelectionList2(
+            options,
+            onOptionClicked = {
+                dompetkuViewModel.selectionOptionSelected(it)
+                optionClicked = true
             }
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "400.000")
-            }
-        }
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "500.000")
-            }
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "600.000")
-            }
-        }
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "700.000")
-            }
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "800.000")
-            }
-        }
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "900.000")
-            }
-            TextButton(modifier = Modifier
-                .weight(2f)
-                .background(color = Color.White, shape = RoundedCornerShape(16.dp)),
-                onClick = { /*TODO*/ }) {
-                Text(text = "1.000.000")
-            }
-        }
-
+        )
 
         Spacer(modifier = Modifier.height(100.dp))
         Button(
+            enabled = if (noKartu.value != "" && optionClicked) true else false,
             modifier = Modifier.width(200.dp),
             onClick = {
                 ttNavController.navigate("ttsection2")
             },
-            colors = ButtonDefaults.buttonColors(containerColor = secondary)
+            colors = ButtonDefaults.buttonColors(containerColor = secondary, disabledContainerColor = secondaryDisabled, contentColor = Color.White, disabledContentColor = whiteTextDisabled)
         ) {
             Text(text = "Konfirmasi")
         }
@@ -273,7 +224,11 @@ private fun TTSection1Prev() {
 }
 
 @Composable
-fun TTSection2(homeNavController: NavHostController, ttNavController: NavHostController, modifier: Modifier = Modifier) {
+fun TTSection2(
+    homeNavController: NavHostController,
+    ttNavController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     Column(
         Modifier
             .fillMaxSize()

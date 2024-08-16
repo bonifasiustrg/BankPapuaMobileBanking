@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -19,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +40,13 @@ import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.ui.theme.secondary
 
 @Composable
-fun TagihanSection1(homeNavController: NavHostController, menuNavController: NavHostController, onConfirm:()->Unit, detailViewModel: DompetkuViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun TagihanSection1(
+    homeNavController: NavHostController,
+    menuNavController: NavHostController,
+    onConfirm: () -> Unit,
+    detailViewModel: DompetkuViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
     val options = detailViewModel.options
     val noTelp = remember { mutableStateOf("") }
     val nominal = remember { mutableIntStateOf(0) }
@@ -50,20 +58,26 @@ fun TagihanSection1(homeNavController: NavHostController, menuNavController: Nav
             .padding(top = LocalConfiguration.current.screenHeightDp.dp * 0.1f)
         /*.verticalScroll(rememberScrollState())*/,
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(text = "Nomor Rekening Anda", fontWeight = FontWeight.Bold)
+
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = noTelp.value,
             onValueChange = { noTelp.value = it },
+            colors = TextFieldDefaults.colors(
+                disabledContainerColor = Color.White,
+                focusedContainerColor = Color.White
+            ),
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Contacts,
+                    imageVector = Icons.Default.CreditCard,
                     contentDescription = null
                 )
             },
             shape = RoundedCornerShape(16.dp),
-            placeholder = { Text(text = "(+62) 8124 5678 910") })
+            placeholder = { Text(text = "9012232123") })
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -71,7 +85,8 @@ fun TagihanSection1(homeNavController: NavHostController, menuNavController: Nav
             Column(modifier = Modifier.padding(16.dp)) {
 
                 Text(text = "Detail", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-                Text(text = "Anda akan melakukan transaksi ke nomor tujuan (+62) 8124 5678 910 \n\u2028Dengan jumlah : ")
+                Text(text = "Anda akan melakukan transaksi ke nomor tujuan (+62) 8124 5678 910")
+                Text(text = "Dengan jumlah:", fontWeight = FontWeight.Bold)
                 Text(text = "Nominal: RP60.000")
                 Text(text = "Nominal: RP0")
             }
@@ -84,7 +99,7 @@ fun TagihanSection1(homeNavController: NavHostController, menuNavController: Nav
             modifier = Modifier
                 .width(200.dp)
                 .align(Alignment.CenterHorizontally),
-            onClick =  onConfirm,
+            onClick = onConfirm,
             colors = ButtonDefaults.buttonColors(containerColor = secondary)
         ) {
             Text(text = "Konfirmasi")
@@ -93,7 +108,12 @@ fun TagihanSection1(homeNavController: NavHostController, menuNavController: Nav
 }
 
 @Composable
-fun TagihanSection2(menuNavController: NavHostController, detailNavController: NavHostController, detailViewModel: DompetkuViewModel = viewModel(), modifier: Modifier = Modifier) {
+fun TagihanSection2(
+    menuNavController: NavHostController,
+    detailNavController: NavHostController,
+    detailViewModel: DompetkuViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
     val options = detailViewModel.options
     val noTelp = remember { mutableStateOf("") }
     val nominal = remember { mutableIntStateOf(0) }
@@ -106,7 +126,7 @@ fun TagihanSection2(menuNavController: NavHostController, detailNavController: N
         /*.verticalScroll(rememberScrollState())*/,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Text(text = "TRANSAKSI BERHASIL", fontWeight = FontWeight.Bold, fontSize = 32.sp)
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -76,12 +77,12 @@ fun PaymentSummaryScreen(
             onValueChange = { noTelp.value = it },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.Contacts,
+                    imageVector = Icons.Default.CreditCard,
                     contentDescription = null
                 )
             },
             shape = RoundedCornerShape(16.dp),
-            placeholder = { Text(text = "(+62) 8124 5678 910") })
+            placeholder = { Text(text = "9012232123") })
 
         Spacer(modifier = Modifier.height(16.dp))
 

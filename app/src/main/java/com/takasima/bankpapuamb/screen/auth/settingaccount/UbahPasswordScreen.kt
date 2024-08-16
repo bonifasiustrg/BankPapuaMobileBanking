@@ -171,11 +171,9 @@ fun UbahPasswordScreen(profileNavController: NavHostController, modifier: Modifi
                 )
             }
             Text(
-                text = "1. Pastikan nomor kendaraan anda terdaftar di daerah anda\n" +
-                        "2. Jika kendaraan anda terdaftar di daerah yang dipilih maka kode bayar akan berlaku \n" +
-                        "3. Kode bayar akan berlaku pada kendaraan anda selama tidak dalam status ranmor tidak terblokir atau blokir data kepemilikan\n" +
-                        "4. Aplikasi Mobile Banking hanya menanggung Pajak Tahunan\n" +
-                        "5. Setelah pembayaran harap mengantarkan bukti pembayaran kepada polantas setempat",
+                text = "1. Password terdiri dari 8-12 karakter\n" +
+                        "2. Terdiri dari kombinasi huruf dan angka\n" +
+                        "3. Kombinasi huruf besar dan kecil diperbolehkan",
                 fontSize = 12.sp
             )
 
