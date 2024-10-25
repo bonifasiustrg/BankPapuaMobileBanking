@@ -51,6 +51,7 @@ import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.data.model.Kurs
 import com.takasima.bankpapuamb.screen.common.BottomSheetContentKurs
 import com.takasima.bankpapuamb.screen.common.BottomSheetContentSamsat
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.RowHeader
 import com.takasima.bankpapuamb.screen.common.Table
@@ -77,36 +78,9 @@ fun KursScreen(profileNavController: NavHostController, modifier: Modifier = Mod
         ) {
             Scaffold(modifier = Modifier, containerColor = lightgrey,
                 topBar = {
-                    Row(
-                        Modifier
-                            .background(terniary2.copy(alpha = 0.6f))
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = lightgrey)
-                            .padding(top = 24.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            profileNavController.navigateUp()
-
-                        }) {
-
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "INFORMASI KURS   ",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("INFORMASI KURS", {
+                        profileNavController.navigateUp()
+                    })
                 }
             ) {
                 Column(
@@ -139,7 +113,7 @@ fun KursScreen(profileNavController: NavHostController, modifier: Modifier = Mod
                             4 // We have 4 columns: Flag, Kurs Name, Sell Kurs, Buy Kurs
 
                         Table(
-                            modifier = Modifier.padding(horizontal = 32.dp),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp).align(Alignment.CenterHorizontally),
                             columnCount = 4,
                             rowCount = kursList.size + 1, // Including header row
                             beforeRow = { rowIndex ->
@@ -211,7 +185,7 @@ fun KursScreen(profileNavController: NavHostController, modifier: Modifier = Mod
                     ) {
                         Text(
                             text = "Jumlah Nilai Tukar",
-                            fontSize = 32.sp,
+                            fontSize = 18.sp,
                             color = terniary
                         )
                         Text(text = "Hitung Jumlah uang saat anda membeli atau menjual mata uang asing ")

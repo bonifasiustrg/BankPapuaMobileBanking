@@ -20,8 +20,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -29,13 +32,17 @@ import androidx.compose.material.icons.outlined.CreditCard
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -56,7 +63,11 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.data.viewmodel.MainViewModel
 import com.takasima.bankpapuamb.navigation.AuthRouteScreens
+import com.takasima.bankpapuamb.navigation.MainRouteScreens
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.OptTextField
+import com.takasima.bankpapuamb.screen.common.Visibility
+import com.takasima.bankpapuamb.screen.common.VisibilityOff
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.secondary
@@ -66,29 +77,8 @@ import com.takasima.bankpapuamb.ui.theme.terniary
 fun RegisterScreen(viewmodel: MainViewModel, rootNavController: NavHostController) {
     Scaffold(
         topBar = {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.10f)
-                    .background(color = Color(0xFFAAE4F6))
-                    .padding(top = 16.dp)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBackIos,
-                    contentDescription = null,
-                    Modifier.size(32.dp)
-                )
-                Text(
-                    text = "REGISTER",
-                    color = terniary,
-                    fontWeight = FontWeight.ExtraBold,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp
-                )
-            }
+            CustomTopBar("REGISTER", { rootNavController.navigateUp() })
+
         }
     ) {
 
@@ -181,7 +171,7 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
         ) {
         Spacer(modifier = Modifier.fillMaxHeight(0.1f))
         Text(
-            text = "Username",
+            text = "Nomor Kartu",
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray,
             fontSize = 16.sp,
@@ -198,12 +188,12 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
 //                    ) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = null
+                    imageVector = Icons.Filled.CreditCard,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
                 )
             },
 
-            placeholder = { Text(text = "testing1") },
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Email
@@ -225,7 +215,7 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
         Spacer(modifier = Modifier.height(36.dp))
 //            tanggal
         Text(
-            text = "Password",
+            text = "Tanggal Lahir",
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray,
             fontSize = 16.sp,
@@ -242,8 +232,10 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
 //                    ) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Filled.Lock,
-                    contentDescription = null
+                    imageVector = Icons.Filled.CalendarMonth,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+
                 )
             },
             placeholder = { Text(text = "testing1") },
@@ -270,7 +262,7 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
 
 //            no telp
         Text(
-            text = "Konfirmasi Password",
+            text = "Nomor Telepon",
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray,
             fontSize = 16.sp,
@@ -287,8 +279,10 @@ fun RegisterScreenSection1(rootNavController: NavHostController, modifier: Modif
 //                    ) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Filled.Lock,
-                    contentDescription = null
+                    imageVector = Icons.Filled.Contacts,
+                    contentDescription = null,
+                    modifier = Modifier.size(48.dp)
+
                 )
             },
 
@@ -348,58 +342,66 @@ private fun RegisterScreenPrev1() {
 
 @Composable
 fun RegisterScreenSection2(rootNavController: NavHostController, modifier: Modifier = Modifier) {
-
-    /*CONTENT*/
-    Column(
-        Modifier
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
-
-        Text(
-            text = "Silahkan cek SMS anda untuk mendapatkan kode OTP",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            fontSize = 20.sp
-        )
-
-        Spacer(modifier = Modifier.height(45.dp))
-        OptTextField()
-
-        Spacer(modifier = Modifier.height(45.dp))
-        Text(
-            text = "03:20",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            fontSize = 32.sp
-        )
-        Spacer(modifier = Modifier.height(90.dp))
-        Button(
-            onClick = {
-                rootNavController.navigate("registersect3")
-//                navController.navigate(Graph.HOME) {
-//                    popUpTo(AuthRouteScreens.SignUp.route) {
-//                        inclusive = true
-//                    }
-//                }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = secondary
-            ),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(200.dp)
-
-        ) {
-            Text(text = "Konfirmasi")
+    Scaffold(
+        topBar = {
+            CustomTopBar("REGISTER", { rootNavController.navigateUp() })
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Kirim Ulang Kode", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+    ) {
 
-        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+        /*CONTENT*/
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(it)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
 
+            Text(
+                text = "Silahkan cek SMS anda untuk mendapatkan kode OTP",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 26.sp
+            )
+
+            Spacer(modifier = Modifier.height(45.dp))
+            OptTextField()
+
+            Spacer(modifier = Modifier.height(45.dp))
+            Text(
+                text = "03:20",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                fontSize = 32.sp
+            )
+            Spacer(modifier = Modifier.height(90.dp))
+            Button(
+                onClick = {
+                    rootNavController.navigate("registersect3")
+    //                navController.navigate(Graph.HOME) {
+    //                    popUpTo(AuthRouteScreens.SignUp.route) {
+    //                        inclusive = true
+    //                    }
+    //                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = secondary
+                ),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(200.dp)
+
+            ) {
+                Text(text = "Konfirmasi")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "Kirim Ulang Kode", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+
+        }
     }
 }
 
@@ -417,166 +419,196 @@ fun RegisterScreenSection3(rootNavController: NavHostController, modifier: Modif
     val pswdConfirm = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    Scaffold(
+        topBar = {
+            CustomTopBar("REGISTER", { rootNavController.navigateUp() })
+        }
+    ) {
 
-    /*CONTENT*/
-    Column(
-        Modifier
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
+        /*CONTENT*/
+        Column(
+            Modifier
+                .padding(it)
+                .padding(horizontal = 24.dp),
+            verticalArrangement = Arrangement.Center,
 
-        ) {
-        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
-        Text(
-            text = "Nomor Kartu",
-            fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(start = 48.dp)
-        )
-        TextField(
-            value = username.value,
-            onValueChange = { username.value = it },
-            shape = RoundedCornerShape(18.dp),
+            ) {
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+            Text(
+                text = "Username",
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(start = 48.dp)
+            )
+            TextField(
+                value = username.value,
+                onValueChange = { username.value = it },
+                shape = RoundedCornerShape(18.dp),
 //                label = {
 //                    Text("001234***",
 //                        color = MaterialTheme.colorScheme.primary,
 //                        style = MaterialTheme.typography.labelMedium,
 //                    ) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.CreditCard,
-                    contentDescription = null
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        contentDescription = null
+                    )
+                },
+
+                placeholder = { Text(text = "username") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                ),
+                singleLine = true,
+                modifier = modifier
+                    .fillMaxWidth(),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        // do something here
+                    }
                 )
-            },
 
-            placeholder = { Text(text = "placeholder") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White
-            ),
-            singleLine = true,
-            modifier = modifier
-                .fillMaxWidth(),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    // do something here
-                }
             )
-
-        )
-        Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 //            tanggal
-        Text(
-            text = "Tanggal Lahir",
-            fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(start = 48.dp)
-        )
-        TextField(
-            value = username.value,
-            onValueChange = { pswdConfirm.value = it },
-            shape = RoundedCornerShape(18.dp),
+            Text(
+                text = "Password",
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(start = 48.dp)
+            )
+
+            var passwordHidden1 by rememberSaveable { mutableStateOf(true) }
+
+            TextField(
+                value = username.value,
+                onValueChange = { pswdConfirm.value = it },
+                shape = RoundedCornerShape(18.dp),
 //                label = {
 //                    Text("001234***",
 //                        color = MaterialTheme.colorScheme.primary,
 //                        style = MaterialTheme.typography.labelMedium,
 //                    ) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.CalendarMonth,
-                    contentDescription = null
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Lock,
+                        contentDescription = null
+                    )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { passwordHidden1 = !passwordHidden1 }) {
+                        val visibilityIcon =
+                            if (passwordHidden1) Visibility else VisibilityOff
+                        // Please provide localized description for accessibility services
+                        val description = if (passwordHidden1) "Show password" else "Hide password"
+                        Icon(imageVector = visibilityIcon, contentDescription = description)
+                    }
+                },
+                placeholder = { Text(text = "**************") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                ),
+                singleLine = true,
+                modifier = modifier
+                    .fillMaxWidth(),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        // do something here
+                    }
                 )
-            },
 
-            placeholder = { Text(text = "DD/MM/YYYY") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White
-            ),
-            singleLine = true,
-            modifier = modifier
-                .fillMaxWidth(),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    // do something here
-                }
             )
-
-        )
-        Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
 //            no telp
-        Text(
-            text = "Nomor Telepon",
-            fontWeight = FontWeight.Bold,
-            color = Color.DarkGray,
-            fontSize = 16.sp,
-            modifier = Modifier.padding(start = 48.dp)
-        )
-        TextField(
-            value = pswdConfirm.value,
-            onValueChange = { pswdConfirm.value = it },
-            shape = RoundedCornerShape(18.dp),
+            Text(
+                text = "Konfirmasi Password",
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray,
+                fontSize = 16.sp,
+                modifier = Modifier.padding(start = 48.dp)
+            )
+
+            var passwordHidden by rememberSaveable { mutableStateOf(true) }
+
+            TextField(
+                value = pswdConfirm.value,
+                onValueChange = { pswdConfirm.value = it },
+                shape = RoundedCornerShape(18.dp),
 //                label = {
 //                    Text("001234***",
 //                        color = MaterialTheme.colorScheme.primary,
 //                        style = MaterialTheme.typography.labelMedium,
 //                    ) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Contacts,
-                    contentDescription = null
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Lock,
+                        contentDescription = null
+                    )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { passwordHidden = !passwordHidden }) {
+                        val visibilityIcon =
+                            if (passwordHidden) Visibility else VisibilityOff
+                        // Please provide localized description for accessibility services
+                        val description = if (passwordHidden) "Show password" else "Hide password"
+                        Icon(imageVector = visibilityIcon, contentDescription = description)
+                    }
+                },
+                placeholder = { Text(text = "************") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White
+                ),
+                singleLine = true,
+                modifier = modifier
+                    .fillMaxWidth(),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        // do something here
+                    }
                 )
-            },
 
-            placeholder = { Text(text = "(+62) 8124 5678 910") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Email
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White
-            ),
-            singleLine = true,
-            modifier = modifier
-                .fillMaxWidth(),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    // do something here
-                }
             )
 
-        )
+            Spacer(modifier = Modifier.height(90.dp))
+            Button(
+                onClick = {
+                    rootNavController.navigate("registersect4")
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = secondary
+                ),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(200.dp)
 
-        Spacer(modifier = Modifier.height(90.dp))
-        Button(
-            onClick = {
-                rootNavController.navigate("registersect4")
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = secondary
-            ),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(200.dp)
+            ) {
+                Text(text = "Konfirmasi")
+            }
 
-        ) {
-            Text(text = "Konfirmasi")
+            Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+
         }
-
-        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
-
     }
+
 }
 
 @Preview(showBackground = true)
@@ -588,17 +620,12 @@ private fun RegisterScreenPrev3() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreenSection4(rootNavController: NavHostController, modifier: Modifier = Modifier) {
-    val username = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val pswdConfirm = remember { mutableStateOf("") }
-    val keyboardController = LocalSoftwareKeyboardController.current
-
 
     /*CONTENT*/
     Column(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
         ) {

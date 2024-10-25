@@ -73,6 +73,11 @@ val jenisBpjs = listOf(
     "BPJS Jaminan Pensiun",
     "BPJS Jaminan Kematian"
 )
+val kur = listOf(
+    "KUR Supermikro",
+    "KUR Mikro",
+    "KUR Kecil",
+)
 
 val daftarUnivIndo = listOf(
     "Universitas Indonesia",

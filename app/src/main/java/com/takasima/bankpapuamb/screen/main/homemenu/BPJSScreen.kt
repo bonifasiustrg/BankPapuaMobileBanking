@@ -60,6 +60,7 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.model.Invoice
 import com.takasima.bankpapuamb.screen.common.BottomSheetContentSamsat
 import com.takasima.bankpapuamb.screen.common.BottomSheetJenisBpjs
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.ExposedDropdownMenu
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen
@@ -92,33 +93,9 @@ fun BPJSScreen(homeNavController: NavHostController, modifier: Modifier = Modifi
         ) {
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            homeNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "BPJS",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("BPJS", {
+                        homeNavController.navigateUp()
+                    })
                 }
             ) { paddingValues ->
                 NavHost(navController = bpjsNavController, startDestination = "samsatsection1") {

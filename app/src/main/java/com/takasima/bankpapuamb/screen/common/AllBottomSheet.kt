@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,8 +50,10 @@ import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
 import com.takasima.bankpapuamb.screen.main.homemenu.transfer.PilihBankSection
 import com.takasima.bankpapuamb.ui.theme.secondary
+import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.utils.banks
 import com.takasima.bankpapuamb.utils.jenisBpjs
+import com.takasima.bankpapuamb.utils.kur
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
@@ -64,11 +67,17 @@ fun BottomSheetContent(
         modifier
             .padding(horizontal = 16.dp, vertical = 24.dp)
             .fillMaxWidth(),
-//        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = "TRANSFER",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp,
+        )
+        Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.Top
         ) {
 
@@ -113,7 +122,7 @@ fun BottomSheetContent(
             }
 
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            /*Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 IconButton(
                     onClick = {
                         homeNavController.navigate(MainRouteScreens.BIFast.route)
@@ -130,7 +139,7 @@ fun BottomSheetContent(
                     )
                 }
                 Text(text = "BI FAST", fontSize = 10.sp)
-            }
+            }*/
         }
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -501,20 +510,19 @@ fun BottomSheetContentKurs(
                 when (columnIndex) {
                     0 ->
                         Image(
-                        painter = painterResource(kurs.iconCountryFlag),
-                        contentDescription = "Country Flag",
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(48.dp)
-                            .clickable { onHideButtonClick() }
-                    )
+                            painter = painterResource(kurs.iconCountryFlag),
+                            contentDescription = "Country Flag",
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(48.dp)
+                                .clickable { onHideButtonClick() }
+                        )
 
                     1 -> Text(
                         text = kurs.kursName,
                         modifier = Modifier
                             .padding(8.dp)
-                            .width(60.dp)
-                        ,
+                            .width(60.dp),
                         textAlign = TextAlign.Center
                     )
 
@@ -540,7 +548,7 @@ fun BottomSheetContentKurs(
 
             },
             afterRow = {
-                Divider(Modifier.fillMaxWidth())
+                Divider(thickness = 2.dp, modifier = Modifier.fillMaxWidth())
             }
         )
 
@@ -620,4 +628,75 @@ fun BottomSheetBank(
 @Composable
 private fun BankPrev() {
     BottomSheetBank(rememberNavController(), {}, Modifier)
+}
+
+@RequiresApi(Build.VERSION_CODES.S)
+@Composable
+fun BSKUR(
+    onHideButtonClick: () -> Unit,
+    modifier: Modifier,
+    bpjsNavController: NavHostController,
+    openBSJenisBpjs: MutableState<Boolean>
+) {
+    var isSelected by remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier
+            .padding(horizontal = 32.dp, vertical = 24.dp)
+            .fillMaxWidth()
+            ,
+//        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
+        kur.forEach {
+            Row(
+                Modifier
+                    .clickable {
+                        isSelected = !isSelected
+                    }
+                    .fillMaxWidth()
+                    .background(color = if (isSelected) Color.LightGray else Color.LightGray, shape = RoundedCornerShape(4.dp))
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.bankpapua_2),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth(0.1f)
+                        .width(100.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(text = it)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(
+            modifier = Modifier
+                .width(200.dp)
+                .align(Alignment.CenterHorizontally),
+            onClick = {
+                onHideButtonClick()
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = secondary)
+        ) {
+            Text(text = "Konfirmasi")
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.S)
+@Preview(showBackground = true)
+@Composable
+private fun BSKURPrev() {
+    BSKUR({}, Modifier, rememberNavController(), remember {
+        mutableStateOf(true)
+    })
 }

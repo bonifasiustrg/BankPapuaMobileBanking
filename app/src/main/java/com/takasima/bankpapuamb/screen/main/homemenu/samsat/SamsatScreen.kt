@@ -59,6 +59,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.model.Invoice
 import com.takasima.bankpapuamb.screen.common.BottomSheetContentSamsat
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.ExposedDropdownMenu
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.VehicleNumberTextField
@@ -90,31 +91,10 @@ fun ESamsatScreen(homeNavController: NavHostController, modifier: Modifier = Mod
         ) {
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = { homeNavController.navigateUp() }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "E-Samsat Papua",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("E-Samsat Papua", {
+                        homeNavController.navigateUp()
+                    })
+                   
                 }
             ) { paddingValues ->
 //                ESamsatSection1(paddingValues = it)

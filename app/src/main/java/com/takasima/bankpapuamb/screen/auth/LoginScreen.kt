@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -54,6 +55,7 @@ import com.takasima.bankpapuamb.screen.common.CustomTextField2
 import com.takasima.bankpapuamb.ui.theme.circle
 import com.takasima.bankpapuamb.ui.theme.circle2
 import com.takasima.bankpapuamb.ui.theme.secondary
+import com.takasima.bankpapuamb.ui.theme.terniary
 
 @Composable
 fun LoginScreen(
@@ -200,7 +202,7 @@ fun LoginScreen(
                         .align(Alignment.CenterHorizontally),
                     alignment = Alignment.Center,
                     contentScale = ContentScale.FillWidth,
-                    painter = painterResource(id = R.drawable.bank_papur_logo2),
+                    painter = painterResource(id = R.drawable.bank_papua),
                     contentDescription = null
                 )
                 Spacer(modifier = Modifier.fillMaxSize(0.38f))
@@ -247,13 +249,15 @@ fun LoginScreen(
                     Text(text = "LOGIN", fontWeight = FontWeight.Bold)
                 }
 
-                TextButton(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    onClick = {
-                        navController.navigate(AuthRouteScreens.SignUp.route)
-                    }) {
-                    Text(text = "REGISTER", color = Color.White, textAlign = TextAlign.Center)
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Text(text = "Belum memiliki akun? ", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    TextButton(
+                        onClick = {
+                            navController.navigate(AuthRouteScreens.SignUp.route)
+                        }) {
+                        Text(text = "Buat Akun", color = terniary, textAlign = TextAlign.Center, fontSize = 12.sp)
 
+                    }
                 }
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -263,12 +267,12 @@ fun LoginScreen(
                     ) {
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(
-                                modifier = Modifier.size(48.dp),
+                                modifier = Modifier.size(72.dp),
                                 painter = painterResource(id = R.drawable.atm),
                                 contentDescription = null
                             )
                         }
-                        Text(text = "ATM")
+                        Text(text = "ATM", color = terniary, fontSize = 12.sp)
                     }
 
                     Spacer(modifier = Modifier.width(24.dp))
@@ -279,12 +283,13 @@ fun LoginScreen(
                     ) {
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(
-                                modifier = Modifier.size(48.dp),
-                                imageVector = Icons.Default.SupportAgent,
+                                modifier = Modifier.size(72.dp),
+//                                imageVector = Icons.Default.SupportAgent,
+                                painter = painterResource(R.drawable.call_center),
                                 contentDescription = null
                             )
                         }
-                        Text(text = "Call Center")
+                        Text(text = "Call Center", color = terniary, fontSize = 12.sp)
                     }
                 }
             }

@@ -47,6 +47,9 @@ android {
 }
 
 dependencies {
+    // Splash API
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     // Preferences DataStore (SharedPreferences like APIs)
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
@@ -65,6 +68,11 @@ dependencies {
 
     // system UI Controller
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    //pager
+    implementation("com.google.accompanist:accompanist-pager:0.36.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.36.0")
+
     //Splash Api
     implementation("androidx.core:core-splashscreen:1.0.1")
 

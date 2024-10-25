@@ -34,10 +34,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Straight
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -64,11 +67,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -160,7 +165,6 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = Color.Black
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
                             IconButton(onClick = {
                                 rootNavController.navigate(AuthRouteScreens.Login.route) {
                                     popUpTo(Graph.HOME) {
@@ -209,7 +213,7 @@ fun HomeScreen(
                         var isSaldoHidden by rememberSaveable { mutableStateOf(true) }
 
                         Text(
-                            text = if (isSaldoHidden) "Rp*********" else "Rp1.000.000",
+                            text = if (isSaldoHidden) "Rp***********" else "Rp1.000.000",
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color.Black
@@ -234,26 +238,26 @@ fun HomeScreen(
                             .background(
                                 Color(0x33063E71), shape = RoundedCornerShape(16.dp)
                             )
-                            .padding(vertical = 16.dp)
+                            .padding(top = 16.dp)
                     ) {
                         /**/
                         var expanded by remember { mutableStateOf(false) }
 //                        val items = List(10) { "Item ${it + 1}" }
                         val displayedItems = if (expanded) menuItems else menuItems.take(6)
                         LazyVerticalGrid(
-                            columns = GridCells.Fixed(3),
                             modifier = Modifier
 //                                .height(IntrinsicSize) // Set a fixed height for the grid
 //                                .wrapContentHeight()
 //                                .background(Color.Gray)
-                                .requiredHeightIn(min = 100.dp, max = 400.dp)
-                                .padding(16.dp)
-                                .fillMaxWidth()
+                                .requiredHeightIn(min = 100.dp, max = 500.dp)
+                                .padding(8.dp)
+                                .fillMaxWidth(),
+                            userScrollEnabled = false,
+                            columns = GridCells.Fixed(3),
                         ) {
                             items(displayedItems) {
                                 Box(
                                     modifier = Modifier
-//                                        .background(Color.White)
                                         .padding(4.dp)
                                         .aspectRatio(1f)
                                         .fillMaxWidth()
@@ -269,17 +273,26 @@ fun HomeScreen(
                                         Image(
                                             painter = painterResource(id = it.icon),
                                             contentDescription = null,
-                                            modifier = Modifier.size(48.dp)
+                                            modifier = Modifier
+                                                .height(48.dp)
+                                                .padding(bottom = 4.dp),
+                                            contentScale = ContentScale.Crop
 
                                         )
-                                        Text(text = it.title)
+                                        Text(
+                                            text = it.title,
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 13.sp
+                                        )
                                     }
                                 }
                             }
                         }
 
                         Divider(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp),
                             thickness = 1.dp,
                             color = Color.Black
                         )
@@ -288,142 +301,13 @@ fun HomeScreen(
                             onClick = { expanded = !expanded },
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         ) {
-                            Text(if (expanded) "Show Less" else "Show More", color = terniary)
+                            Text(if (expanded) "Tutup" else "Lainnya", color = terniary)
                             Icon(
                                 imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                                 tint = terniary,
                                 contentDescription = null
                             )
                         }
-//                        Spacer(modifier = Modifier.height(16.dp))
-
-                        /**/
-//                        Row(
-//                            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(16.dp)
-//                        ) {
-//                            Column(
-//                                horizontalAlignment = Alignment.CenterHorizontally,
-//                                modifier = Modifier.clickable {
-//                                    homeNavController.navigate(FeatureRouteScreens.TarikTunai1.route)
-//                                }
-//                            ) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.tarik_tunai),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//
-//                                )
-//                                Text(text = "Tarik Tunai", fontSize = 12.sp)
-//                            }
-//
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally,
-//                                modifier = Modifier.clickable {
-//                                    homeNavController.navigate(FeatureRouteScreens.DompetkuScreen.route)
-//                                }
-//                            ) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.dompetku),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//
-//                                )
-//                                Text(text = "Dompetku", fontSize = 12.sp)
-//                            }
-//
-//
-//                            Column(
-//                                horizontalAlignment = Alignment.CenterHorizontally,
-//                                modifier = Modifier.clickable {
-//                                    openPayBottomSheet.value = true
-//                                }) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.transfer),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//
-//                                )
-//                                Text(text = "Transfer", fontSize = 12.sp)
-//                            }
-//
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-//                                homeNavController.navigate(FeatureRouteScreens.PembayaranMainSection.route)
-//                            }) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.pembayaran),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//
-//                                )
-//                                Text(text = "Pembayaran", fontSize = 12.sp)
-//                            }
-//                        }
-//
-//                        Spacer(modifier = Modifier.height(32.dp))
-//
-//                        Row(
-//                            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(16.dp), verticalAlignment = Alignment.CenterVertically
-//                        ) {
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.clickable {
-//                                homeNavController.navigate(FeatureRouteScreens.FavoriteScreen.route)
-//                            }
-//                            ) {
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.bookmark),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//                                )
-//                                Text(text = "Favorit", fontSize = 12.sp)
-//                            }
-//
-//
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-//                                homeNavController.navigate(FeatureRouteScreens.BPJSScreen.route)
-//                            }) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.bpjs),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(64.dp)
-//                                )
-//                                Text(text = "BPJS", fontSize = 12.sp)
-//                            }
-//
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-//                                homeNavController.navigate(FeatureRouteScreens.ESamsatScreen.route)
-//                            }
-//                            ) {
-//
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.esamsat),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(width = 110.dp, height = 64.dp),
-//                                    contentScale = ContentScale.Fit
-//                                )
-//                                Text(text = "E-Samsat Papua", fontSize = 12.sp)
-//                            }
-//
-//                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-//                                homeNavController.navigate(FeatureRouteScreens.PACE.route)
-//                            }
-//                            ) {
-//                                Image(
-//                                    painter = painterResource(id = R.drawable.pace_wa),
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(48.dp)
-//
-//                                )
-//                                Text(text = "PACE", fontSize = 12.sp)
-//                            }
-//                        }
-//                        /**/
                     }
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -432,7 +316,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .wrapContentHeight()
                             .background(
-                                Color(0x99FFFFFF), shape = RoundedCornerShape(8.dp)
+                                Color(0xCCFFFFFF), shape = RoundedCornerShape(8.dp)
                             ),
                     ) {
                         Row(
@@ -457,7 +341,8 @@ fun HomeScreen(
                             ) {
                                 Text(
                                     text = "Bulan ini",
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = 24.dp),
+                                    fontSize = 10.sp
                                 )
 
                             }
@@ -477,7 +362,9 @@ fun HomeScreen(
                             ) {
                                 Text(
                                     text = "Bulan lalu",
-                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                    modifier = Modifier.padding(horizontal = 24.dp),
+                                    fontSize = 10.sp
+
                                 )
 
                             }
@@ -487,27 +374,40 @@ fun HomeScreen(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(Modifier.weight(1f)) {
-                                Text(
-                                    text = "Pemasukan",
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 14.sp,
-                                    color = Color(0xFF80CB0D)
-                                )
+                            Column(
+                                Modifier.weight(1f),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Row {
+
+                                    Text(
+                                        text = "Pemasukan",
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 14.sp,
+                                        color = Color(0xFF80CB0D),
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Default.Straight,
+                                        contentDescription = null,
+                                        tint = Color(0xFF80CB0D),
+                                        modifier = Modifier.rotate(180f)
+                                    )
+                                }
                                 Text(
                                     text = "Rp45.000.000",
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 14.sp,
-                                    color = Color(0xFF80CB0D)
-                                )
-                                Divider()
+                                    color = Color(0xFF80CB0D),
+
+                                    )
+                                Divider(color = Color.Gray)
                             }
                             Box(
                                 modifier = Modifier
                                     .size(120.dp)
                                     .padding(8.dp),
                                 contentAlignment = Alignment.Center
-                            ){
+                            ) {
                                 CircularProgressIndicator(
                                     modifier = Modifier
                                         .size(130.dp),
@@ -518,25 +418,46 @@ fun HomeScreen(
 
                                     )
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(text = "100%", fontWeight = FontWeight.Bold, color = circle)
-                                    Text(text = "Pengeluaran", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
+                                    Text(
+                                        text = "100%",
+                                        fontWeight = FontWeight.Bold,
+                                        color = circle
+                                    )
+                                    Text(
+                                        text = "Pengeluaran",
+                                        fontSize = 9.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Gray
+                                    )
                                 }
                             }
 
-                            Column(Modifier.weight(1f)) {
-                                Text(
-                                    text = "Pengeluaran",
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 14.sp,
-                                    color = Color(0xFFD86251)
-                                )
+                            Column(
+                                Modifier.weight(1f),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                Row {
+                                    Text(
+                                        text = "Pengeluaran",
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 14.sp,
+                                        color = Color(0xFFD86251)
+                                    )
+                                    Icon(
+                                        imageVector = Icons.Default.Straight,
+                                        contentDescription = null,
+                                        tint = Color(0xFFD86251)
+                                    )
+
+                                }
                                 Text(
                                     text = "Rp45.000.000",
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 14.sp,
                                     color = Color(0xFFD86251)
                                 )
-                                Divider()
+                                Divider(color = Color.Gray)
                             }
                         }
                         Row(
@@ -599,14 +520,14 @@ fun HomeScreen(
 
                         }
                     }
-                    Spacer(modifier = Modifier.height(72.dp))
+                    Spacer(modifier = Modifier.height(82.dp))
                 }
                 /**/
                 if (openPayBottomSheet.value) {
                     ModalBottomSheet(
                         sheetState = bottomSheetState,
                         onDismissRequest = { openPayBottomSheet.value = false },
-                        dragHandle = {
+                        /*dragHandle = {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
@@ -620,7 +541,7 @@ fun HomeScreen(
                                 Spacer(modifier = modifier.height(10.dp))
                                 Divider()
                             }
-                        }
+                        }*/
                     ) {
                         BottomSheetContent(
                             onHideButtonClick = {

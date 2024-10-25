@@ -135,7 +135,7 @@ fun OptTextFieldPIN(modifier: Modifier = Modifier, bgColor: Color = Color.Transp
             onDone = { /* Handle done action */ }
         ),
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
 
             repeat(6) { index ->
                 val number = when {
@@ -173,6 +173,68 @@ fun OptTextFieldPIN(modifier: Modifier = Modifier, bgColor: Color = Color.Transp
 private fun OptTextFieldPINPrev() {
     Column(Modifier.fillMaxWidth()) {
         OptTextFieldPIN()
+    }
+}
+
+
+@Composable
+fun OptTextFieldOTP(modifier: Modifier = Modifier, bgColor: Color = Color.Transparent) {
+    var otpText by remember {
+        mutableStateOf("")
+    }
+
+    BasicTextField(
+        value = otpText,
+        onValueChange = {
+            if (it.length <= 6) {
+                otpText = it
+            }
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { /* Handle done action */ }
+        ),
+    ) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+
+            repeat(4) { index ->
+                val number = when {
+                    index >= otpText.length -> ""
+                    else -> otpText[index]
+                }
+
+                Column(
+                    modifier = modifier
+                        .background(bgColor, shape = RoundedCornerShape(16.dp))
+                        .border(1.dp, terniary2, shape = RoundedCornerShape(20.dp))
+                        .padding(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = number.toString(),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontSize = 48.sp
+                    )
+
+                    Box(
+                        modifier = modifier
+                            .width(64.dp)
+//                            .height(32.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OptTextFieldOTPPrev() {
+    Column(Modifier.fillMaxWidth()) {
+        OptTextFieldOTP()
     }
 }
 

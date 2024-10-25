@@ -37,6 +37,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
+import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.biru2
 import com.takasima.bankpapuamb.ui.theme.lightgrey
 import com.takasima.bankpapuamb.ui.theme.terniary
@@ -51,25 +52,25 @@ fun SettingScreen(profileNavController: NavHostController, modifier: Modifier = 
             .fillMaxSize()
             .background(terniary2)
     ) {
-//        MainBg()
+        MainBg()
 
         Box(
             modifier = Modifier
         ) {
 
-            Scaffold(modifier = Modifier, containerColor = lightgrey,
+            Scaffold(modifier = Modifier, containerColor = Color.Transparent,
                 topBar = {
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = lightgrey)
-                            .padding(top = 16.dp)
+                            .fillMaxHeight(0.1f)
+                            .background(color = Color(0xB3AAE4F6))
+                            .padding(vertical = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = {
-                            profileNavController.navigateUp()
+                            profileNavController.navigate(ProfileRouteScreens.Profile.route)
 
                         }) {
 
@@ -80,7 +81,7 @@ fun SettingScreen(profileNavController: NavHostController, modifier: Modifier = 
                             )
                         }
                         Text(
-                            text = "Setting   ",
+                            text = "Pengaturan Akun",
                             color = terniary,
                             fontWeight = FontWeight.ExtraBold,
                             modifier = Modifier.fillMaxWidth(),
@@ -94,6 +95,8 @@ fun SettingScreen(profileNavController: NavHostController, modifier: Modifier = 
                     Modifier
                         .fillMaxSize()
                         .padding(it)
+                        .background(Color(0xFFebe8e8))
+
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
@@ -127,7 +130,8 @@ fun SettingScreen(profileNavController: NavHostController, modifier: Modifier = 
                     Spacer(modifier = Modifier.height(32.dp))
 
 
-                    Column(modifier = Modifier.background(color = Color.White).padding(16.dp)) {
+                    Column(modifier = Modifier.background(color = Color.White).padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
 
                         Row(
                             modifier = Modifier

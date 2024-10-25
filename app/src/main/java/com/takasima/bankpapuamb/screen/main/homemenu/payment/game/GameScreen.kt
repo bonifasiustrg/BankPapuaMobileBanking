@@ -58,6 +58,7 @@ import com.takasima.bankpapuamb.R
 import com.takasima.bankpapuamb.data.model.Invoice
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
 import com.takasima.bankpapuamb.screen.common.BottomSheetGame
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen
 import com.takasima.bankpapuamb.ui.theme.secondary
@@ -90,32 +91,10 @@ fun GameScreen(paymentNavController: NavHostController, modifier: Modifier = Mod
 
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            paymentNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "Voucher Game",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 28.sp
-                        )
-                    }
+                    CustomTopBar("Voucher Game", {
+                        paymentNavController.navigateUp()
+                    })
+                    
                 }
             ) { paddingValues ->
                 NavHost(navController = gameNavController, startDestination = "gamesection1") {

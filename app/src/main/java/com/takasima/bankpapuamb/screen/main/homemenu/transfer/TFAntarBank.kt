@@ -66,8 +66,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.R
+import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.screen.common.BottomSheetBank
 import com.takasima.bankpapuamb.screen.common.BottomSheetContentPembayaran
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
@@ -96,34 +98,9 @@ fun TFAntarBankScreen(homeNavController: NavHostController, modifier: Modifier =
 
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            homeNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "TRANSFER ANTAR BANK",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 20.sp
-                        )
-                    }
+                    CustomTopBar("TRANSFER ANTAR BANK", {
+                        homeNavController.navigateUp()
+                    })
                 }
             ) {
                 Column(
@@ -297,6 +274,33 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, openBo
             modifier = modifier.weight(1f)
         )
     }
+    Spacer(modifier = Modifier.height(24.dp))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, RoundedCornerShape(16.dp))
+            .clickable {
+                openBottomSheet.value = true
+            }
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.bifast),
+            contentDescription = null,
+            modifier = modifier.size(48.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = "Metode Transfer",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = modifier.weight(1f)
+        )
+        IconButton(onClick = {  }) {
+            Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
+        }
+    }
     Spacer(modifier = Modifier.weight(2f))
 
     Button(
@@ -306,7 +310,7 @@ fun ColumnScope.TFAntarBankSection1(homeNavController: NavHostController, openBo
         onClick = {
 //            homeNavController.navigate(MainRouteScreens.Home.route)
 //            homeNavController.popBackStack()
-            homeNavController.navigate("invoice")
+            homeNavController.navigate("tagihan3sect")
 
         },
         colors = ButtonDefaults.buttonColors(containerColor = secondary, contentColor = Color.White)

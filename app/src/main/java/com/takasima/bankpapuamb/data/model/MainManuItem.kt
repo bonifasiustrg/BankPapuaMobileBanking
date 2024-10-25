@@ -47,22 +47,23 @@ val menuItems = listOf(
         icon = R.drawable.kur_ic,
         title = "Kredit Usaha Rakyat"
     ),
-    MainManuItem(
+    /*MainManuItem(
         route = FeatureRouteScreens.BukuKeuangan.route,
         icon = R.drawable.buku_keuangan_ic,
         title = "Buku Keuangan"
+    ),*/
+    MainManuItem(
+        route = FeatureRouteScreens.PembayaranMainSection.route,
+        icon = R.drawable.pembayaran,
+        title = "Pembayaran"
     ),
+
     MainManuItem(
         route = FeatureRouteScreens.PACE.route,
         icon = R.drawable.pace_wa,
         title = "PACE"
     ),
 
-    MainManuItem(
-        route = FeatureRouteScreens.PembayaranMainSection.route,
-        icon = R.drawable.pembayaran,
-        title = "Pembayaran"
-    ),
 
 
 

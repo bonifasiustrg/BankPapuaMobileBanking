@@ -12,6 +12,7 @@ sealed class MainRouteScreens(var route: String) {
 
     object  Home : MainRouteScreens("home")
     object  Mutation : MainRouteScreens("mutation")
+    object  Keuangan : MainRouteScreens("keuangan")
     object  History : MainRouteScreens("history")
     object  Atm : MainRouteScreens("atm")
     object  Profile : MainRouteScreens("profile")
@@ -32,7 +33,7 @@ sealed class AuthRouteScreens(var route: String) {
 sealed class ProfileRouteScreens(var route: String) {
 
     object Profile : ProfileRouteScreens("profile")
-    object SettingRekening : ProfileRouteScreens("setting_rekening")
+    object SettingKredit : ProfileRouteScreens("setting_kredit")
     object Kurs : ProfileRouteScreens("kurs")
     object Lokasi : ProfileRouteScreens("lokasi")
     object SnK : ProfileRouteScreens("snk")
@@ -62,6 +63,11 @@ sealed class FeatureRouteScreens(var route: String) {
 
 
     object  Security : FeatureRouteScreens("security")
+    object  Security2 : FeatureRouteScreens("security2")
+    object  KodeOTP : FeatureRouteScreens("kode_otp")
+
+    object  Simpeda : FeatureRouteScreens("simpeda")
+    object  Simanja : FeatureRouteScreens("simanja")
 }
 sealed class PaymentMenuScreens(var route: String) {
 

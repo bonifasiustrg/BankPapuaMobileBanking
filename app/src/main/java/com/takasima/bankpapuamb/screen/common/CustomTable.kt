@@ -5,6 +5,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
@@ -31,7 +33,7 @@ fun Table(
     columnCount: Int,
     rowCount: Int,
     beforeRow: (@Composable (rowIndex: Int) -> Unit)? = null,
-    afterRow: (@Composable (rowIndex: Int) -> Unit)? = null,
+    afterRow: (@Composable (rowIndex: Int) -> Unit)? = { Divider(thickness = 2.dp, modifier = Modifier.fillMaxWidth()) },
     cellContent: @Composable (columnIndex: Int, rowIndex: Int) -> Unit
 ) {
     val columnWidths = remember { mutableStateMapOf<Int, Int>() }
@@ -64,6 +66,8 @@ fun Table(
                     }
 
                     afterRow?.invoke(rowIndex)
+
+
                 }
             }
         }

@@ -17,17 +17,29 @@ import com.takasima.bankpapuamb.data.viewmodel.Payment2ViewModel
 import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.MainRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
+import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
+import com.takasima.bankpapuamb.screen.auth.settingaccount.FavoriteSect2Screen
+import com.takasima.bankpapuamb.screen.common.CongratsScreen
 import com.takasima.bankpapuamb.screen.common.ScreenContent
+import com.takasima.bankpapuamb.screen.common.SecurityScreen
+import com.takasima.bankpapuamb.screen.common.TagihanSection3
+import com.takasima.bankpapuamb.screen.main.EStatementScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.BPJSScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.DompetkuScreen
 import com.takasima.bankpapuamb.screen.main.FavoriteScreen
 import com.takasima.bankpapuamb.screen.main.HomeScreen
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen2
+import com.takasima.bankpapuamb.screen.main.InvoiceScreen3
 import com.takasima.bankpapuamb.screen.main.PaymentSummaryScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.kur.SnKKURScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.BukuKeuanganScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.transfer.TFAntarBankScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.transfer.TFSesamaBankScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.TarikTunaiScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.kur.KURScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.kur.PembayaranKURScreen
+import com.takasima.bankpapuamb.screen.main.homemenu.kur.PengajuanKURScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.game.GameScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.AirScreen
 import com.takasima.bankpapuamb.screen.main.homemenu.payment.InternetScreen
@@ -91,10 +103,12 @@ fun HomeNavHost(
                 ScreenContent(FeatureRouteScreens.PACE.route, {})
             }
             composable(route = FeatureRouteScreens.KUR.route) {
-                ScreenContent(FeatureRouteScreens.KUR.route, {})
+//                ScreenContent(FeatureRouteScreens.KUR.route, {})
+                KURScreen(rootNavController = rootNavController, homeNavController = homeNavController)
             }
             composable(route = FeatureRouteScreens.BukuKeuangan.route) {
-                ScreenContent(FeatureRouteScreens.BukuKeuangan.route, {})
+//                ScreenContent(FeatureRouteScreens.BukuKeuangan.route, {})
+                BukuKeuanganScreen(rootNavController = rootNavController, homeNavController = homeNavController)
             }
 
             /*TRANSFER BOTTOM SHEET MENU*/
@@ -111,7 +125,12 @@ fun HomeNavHost(
 
                 }
             }
-
+            composable(FeatureRouteScreens.Security.route){
+                SecurityScreen(homeNavController, MainRouteScreens.Home.route)
+            }
+            composable("congrats"){
+                CongratsScreen(homeNavController)
+            }
             composable("invoice") {
                 InvoiceScreen(
                     paddingValues = PaddingValues(),
@@ -136,6 +155,43 @@ fun HomeNavHost(
                     )
                 )
             }
+
+
+            composable("tagihan3sect") {
+                TagihanSection3(homeNavController, onConfirm = {
+                    homeNavController.navigate("invoice3")
+                })
+            }
+//                    composable("dompetsection3"){
+//                        TagihanSection2(homeNavController, dompetkuNavController, dompetkuViewModel)
+//                    }
+
+            composable("invoice3") {
+                InvoiceScreen3(
+                    paddingValues = PaddingValues(),
+                    homeNavController = homeNavController,
+                    invoice = Invoice(
+                        "xxxxxxxxxxxxx", "FREDERIKUS MAHUZE", "DD/MM/YYYY",
+                        rekAsal = " 9102232123", jenisTransaksi = "Dana",
+                        nominal = 500_000
+                    )
+                )
+            }
+
+            composable("favoritesect2") {
+                FavoriteSect2Screen(homeNavController)
+            }
+            composable("snkKUR") {
+                SnKKURScreen(homeNavController)
+            }
+            composable("pangajuanKUR") {
+                PengajuanKURScreen(homeNavController)
+            }
+
+            composable("pembayaranKUR") {
+                PembayaranKURScreen(homeNavController)
+            }
+
 
         }
     }

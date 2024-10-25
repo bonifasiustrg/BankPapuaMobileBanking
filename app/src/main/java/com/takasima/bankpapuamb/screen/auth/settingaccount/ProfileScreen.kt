@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.navigation.AuthRouteScreens
 import com.takasima.bankpapuamb.navigation.Graph
 import com.takasima.bankpapuamb.navigation.ProfileRouteScreens
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.ui.theme.biru2
 import com.takasima.bankpapuamb.ui.theme.lightgrey
@@ -49,8 +50,6 @@ import com.takasima.bankpapuamb.ui.theme.terniary2
 
 @Composable
 fun ProfileScreen(name: String, rootNavController: NavHostController, profileNavController: NavHostController, modifier: Modifier = Modifier) {
-
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,43 +61,18 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
             modifier = Modifier
         ) {
 
-            Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
+            Scaffold(modifier = Modifier, containerColor = Color.Transparent,
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            rootNavController.navigateUp()
-                        }) {
-
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "Profile   ",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("Profile", {
+                        rootNavController.navigateUp()
+                    })
                 }
             ) {
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .background(Color.White)
                         .padding(it)
+                        .background(Color.White)
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
@@ -152,7 +126,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
 
                     TextButton(
                         onClick = {
-                            profileNavController.navigate(ProfileRouteScreens.SettingRekening.route)
+                            profileNavController.navigate(ProfileRouteScreens.SettingKredit.route)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -271,6 +245,7 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
                     }
 
                     Button(
+                        shape = RoundedCornerShape(25),
                         modifier = modifier.align(Alignment.CenterHorizontally),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = secondary,
@@ -286,7 +261,8 @@ fun ProfileScreen(name: String, rootNavController: NavHostController, profileNav
                             }
                         }) {
                         Text(
-                            text = "Keluar",
+                            modifier = Modifier.padding(horizontal = 32.dp),
+                            text = "LOG OUT",
                             fontWeight = FontWeight.Bold
                         )
                     }

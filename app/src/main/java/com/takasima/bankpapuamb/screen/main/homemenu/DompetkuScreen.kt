@@ -66,6 +66,7 @@ import com.takasima.bankpapuamb.ui.theme.secondary
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 import com.takasima.bankpapuamb.data.viewmodel.DompetkuViewModel
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.SingleSelectionCard3
 import com.takasima.bankpapuamb.screen.common.TagihanSection1
 import com.takasima.bankpapuamb.screen.main.InvoiceScreen
@@ -82,6 +83,7 @@ fun DompetkuScreen(
 ) {
     val dompetkuNavController = rememberNavController()
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -95,33 +97,9 @@ fun DompetkuScreen(
 
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            homeNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(24.dp)
-                            )
-                        }
-                        Text(
-                            text = "DOMPETKU  ",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 20.sp
-                        )
-                    }
+                    CustomTopBar("DOMPETKU", {
+                        homeNavController.navigateUp()
+                    })
                 }
             ) {
 
@@ -148,7 +126,7 @@ fun DompetkuScreen(
 //                    }
 
                     composable("invoice2") {
-                        InvoiceScreen2(
+                        InvoiceScreen(
                             paddingValues = PaddingValues(),
                             menuNavController = dompetkuNavController,
                             homeNavController = homeNavController,

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.BankPapuaMobileBanking" parent="android:Theme.Material.Light.NoActionBar" />
+<!--    <style name="Theme.BankPapuaMobileBanking" parent="android:Theme.Material.Light.NoActionBar">-->
+    <style name="Theme.BankPapuaMobileBanking" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_bank_papua</item>
+        <item name="postSplashScreenTheme">@style/android:Theme.Material.Light.NoActionBar</item>
+    </style>
 </resources>

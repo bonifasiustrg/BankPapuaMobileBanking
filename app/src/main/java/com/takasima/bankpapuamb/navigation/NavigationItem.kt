@@ -16,10 +16,10 @@ val bottomNavigationItemsList = listOf(
         unSelectedIcon = /*Icons.Outlined.Home*/R.drawable.home_ic,
     ),
     NavigationItem(
-        title = "Mutation",
-        route = MainRouteScreens.Mutation.route,
-        selectedIcon = /*Icons.Filled.Person*/R.drawable.mutasi_ic,
-        unSelectedIcon = /*Icons.Outlined.Person*/R.drawable.mutasi_ic,
+        title = "Keuangan",
+        route = MainRouteScreens.Keuangan.route,
+        selectedIcon = /*Icons.Filled.Person*/R.drawable.buku_keuangan_ic,
+        unSelectedIcon = /*Icons.Outlined.Person*/R.drawable.buku_keuangan_ic,
     ),
     NavigationItem(
         title = "QRIS",

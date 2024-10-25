@@ -62,6 +62,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.navigation.FeatureRouteScreens
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.ExposedDropdownMenu
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.SecurityScreen
@@ -101,33 +102,9 @@ fun AirScreen(
 
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            paymentNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "PEMBAYARAN AIR",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("PEMBAYARAN AIR", {
+                        paymentNavController.navigateUp()
+                    })
                 }
             ) {
                 NavHost(navController = airNavController, startDestination = "airsection1") {
@@ -143,7 +120,7 @@ fun AirScreen(
                         TagihanSection2(paymentNavController, airNavController)
                     }
                     composable(FeatureRouteScreens.Security.route){
-                        SecurityScreen(paymentNavController, airNavController)
+                        SecurityScreen(paymentNavController)
                     }
 
                 }

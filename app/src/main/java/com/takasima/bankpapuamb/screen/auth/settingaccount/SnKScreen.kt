@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material3.Icon
@@ -32,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.screen.common.MainBg
-import com.takasima.bankpapuamb.ui.theme.lightgrey
 import com.takasima.bankpapuamb.ui.theme.terniary
 import com.takasima.bankpapuamb.ui.theme.terniary2
 
@@ -41,21 +38,22 @@ fun SnKScreen(profileNavController: NavHostController, modifier: Modifier = Modi
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(terniary2)
     ) {
         MainBg()
 
         Box(
             modifier = Modifier
         ) {
-            Scaffold(modifier = Modifier, containerColor = lightgrey,
+
+            Scaffold(modifier = Modifier, containerColor = Color.Transparent,
                 topBar = {
                     Row(
                         Modifier
-                            .background(terniary2.copy(alpha = 0.6f))
                             .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = lightgrey)
-                            .padding(top = 16.dp)
+                            .fillMaxHeight(0.1f)
+                            .background(color = Color(0xB3AAE4F6))
+                            .padding(vertical = 16.dp)
                             .padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -84,10 +82,9 @@ fun SnKScreen(profileNavController: NavHostController, modifier: Modifier = Modi
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .background(Color.White)
                         .padding(it)
-                        .padding(vertical = 8.dp, horizontal = 32.dp)
-                        .verticalScroll(rememberScrollState()),
+                        .background(Color.White)
+                        .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {

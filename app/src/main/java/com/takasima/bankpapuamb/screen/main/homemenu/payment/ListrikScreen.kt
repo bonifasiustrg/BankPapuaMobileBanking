@@ -45,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.takasima.bankpapuamb.data.ListrikMethodOption
 import com.takasima.bankpapuamb.data.viewmodel.Payment2ViewModel
 import com.takasima.bankpapuamb.navigation.PaymentMenuScreens
+import com.takasima.bankpapuamb.screen.common.CustomTopBar
 import com.takasima.bankpapuamb.screen.common.MainBg
 import com.takasima.bankpapuamb.screen.common.SingleSelectionCard
 import com.takasima.bankpapuamb.screen.common.SingleSelectionCard2
@@ -75,33 +76,10 @@ fun ListrikScreen(
 
             Scaffold(modifier = Modifier, containerColor = Color(0xA1063E71),
                 topBar = {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.08f)
-                            .background(color = Color(0xB3AAE4F6))
-                            .padding(top = 16.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        IconButton(onClick = {
-                            paymentNavController.navigateUp()
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = null,
-                                Modifier.size(32.dp)
-                            )
-                        }
-                        Text(
-                            text = "PEMBAYARAN LISTRIK",
-                            color = terniary,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            fontSize = 24.sp
-                        )
-                    }
+                    CustomTopBar("PEMBAYARAN LISTRIK", {
+                        paymentNavController.navigateUp()
+                    })
+                    
                 }
             ) {
                 Column(
